@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+
+  <meta name="keywords" content="Javascript,执行上下文,变量对象,Execution Context," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="liuxuan的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="上一节我们讨论了执行上下文，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。 变量对象就是执行上下文和作用域链中间的桥梁。剧透一下，神秘的 this 就存在于执行上下文环境之中！当然，之后我会单独用几节来彻底讲明白 this 到底是什么（其实 this 很简单）。 接下来，我们进入正文。 执行上下文包含">
+<meta name="keywords" content="Javascript,执行上下文,变量对象,Execution Context">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS学习系列 06 - 变量对象">
+<meta property="og:url" content="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/index.html">
+<meta property="og:site_name" content="liuxuan的博客">
+<meta property="og:description" content="上一节我们讨论了执行上下文，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。 变量对象就是执行上下文和作用域链中间的桥梁。剧透一下，神秘的 this 就存在于执行上下文环境之中！当然，之后我会单独用几节来彻底讲明白 this 到底是什么（其实 this 很简单）。 接下来，我们进入正文。 执行上下文包含">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180407/variable_object.jpg?imageView2/1/w/1000/h/400">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180324/variable_object.png">
+<meta property="og:updated_time" content="2018-04-06T18:37:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS学习系列 06 - 变量对象">
+<meta name="twitter:description" content="上一节我们讨论了执行上下文，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。 变量对象就是执行上下文和作用域链中间的桥梁。剧透一下，神秘的 this 就存在于执行上下文环境之中！当然，之后我会单独用几节来彻底讲明白 this 到底是什么（其实 this 很简单）。 接下来，我们进入正文。 执行上下文包含">
+<meta name="twitter:image" content="http://image.liuxuan.site/blog/20180407/variable_object.jpg?imageView2/1/w/1000/h/400">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/"/>
+
+
+
+
+
+
+
+  <title>JS学习系列 06 - 变量对象 | liuxuan的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c8f840e91320da3bc5c5748fa3d6c08";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/assets/img/forkme_left_darkblue.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuxuan的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">苍山如海, 残阳如血</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS学习系列 06 - 变量对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T10:36:00+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/08/10/javascript_06_variable_object/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/08/10/javascript_06_variable_object/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/08/10/javascript_06_variable_object/" class="leancloud_visitors" data-flag-title="JS学习系列 06 - 变量对象">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,150字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://image.liuxuan.site/blog/20180407/variable_object.jpg?imageView2/1/w/1000/h/400" alt="variable-object"></p>
+<p>上一节我们讨论了<a href="http://www.jianshu.com/p/05641baa5134" target="_blank" rel="noopener">执行上下文</a>，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。</p>
+<p><strong>变量对象</strong>就是<strong>执行上下文</strong>和<strong>作用域链</strong>中间的桥梁。<br>剧透一下，神秘的 <strong>this</strong> 就存在于执行上下文环境之中！<br>当然，之后我会单独用几节来彻底讲明白 <strong>this 到底是什么</strong>（其实 this 很简单）。</p>
+<p>接下来，我们进入正文。</p>
+<h3 id="执行上下文包含什么"><a href="#执行上下文包含什么" class="headerlink" title="执行上下文包含什么"></a>执行上下文包含什么</h3><p>一个执行上下文我们可以抽象的理解为对象（object）。<br>每一个执行上下文都有一些属性（又称为上下文状态），它们用来追踪关联代码的执行进度。</p>
+<p>我用一个结构图来说明：</p>
+<p><img src="http://image.liuxuan.site/blog/20180324/variable_object.png" alt="执行上下文环境 object"></p>
+<a id="more"></a>
+<p><strong>Variable Object</strong> 就代表变量对象。<br><strong>Scope Chain</strong> 代表作用域链。<br><strong>thisValue</strong> 代表神秘的 this 。</p>
+<p>作用域链和 this 留到后面再讲，今天我们先来弄明白<strong>变量对象</strong>。</p>
+<h3 id="变量对象"><a href="#变量对象" class="headerlink" title="变量对象"></a>变量对象</h3><blockquote>
+<p>A variable object is a scope of data related with the execution context. It’s a special object associated with the context and which stores variables and function declarations are being defined within the context.</p>
+</blockquote>
+<blockquote>
+<p>变量对象(variable object) 是与执行上下文相关的数据作用域(scope of data) 。它是与上下文关联的特殊对象，用于存储被定义在上下文中的 变量(variables) 和 函数声明(function declarations) 。</p>
+</blockquote>
+<p><strong>变量对象</strong>（Variable Object – 简写 VO）是一个抽象的概念，指代与执行上下文相关的特殊对象，它存储着在上下文中声明的：</p>
+<ul>
+<li><strong>变量</strong>（var）</li>
+<li><strong>函数声明</strong> （function declaration，简写 FD）</li>
+<li><strong>函数的形参</strong>（arguments）</li>
+</ul>
+<p>我们假设变量对象为一个普通 ECMAScript 对象：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">VO</span> = &#123;&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>就像前面讲过的，VO 是执行上下文的一个属性：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">activeExecutionContext = &#123;</span><br><span class="line"><span class="symbol">  VO:</span> &#123;</span><br><span class="line">    <span class="comment">// 上下文数据 （vars, FD, arguments）</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为变量对象是一个抽象的概念，所以并不能通过变量对象的名称直接访问，但是却可以通过别的方法来间接访问变量对象，例如在全局上下文环境的变量对象会有一个属性 window (DOM 中) 可以引用变量对象自身，全局上下文环境的另一个属性 this 也指向全局上下文环境的变量对象。</p>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">num</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> b = <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">exp</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="number">111</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里对应的变量对象是：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局上下文环境的变量对象</span></span><br><span class="line">VO(globalContext) = &#123;</span><br><span class="line">   <span class="comment">// 一些全局环境初始化时系统自动创建的属性： Math、String、Date、parseInt等等</span></span><br><span class="line">   ···</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 全局上下文的变量对象中有一个属性可以访问到自身，在浏览器中这个属性是 window ，在 node 中这个属性是 global</span></span><br><span class="line"><span class="symbol">   window:</span> global</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 自己定义的属性</span></span><br><span class="line"><span class="symbol">   a:</span> <span class="number">10</span>,</span><br><span class="line"><span class="symbol">   foo:</span> <span class="params">&lt;reference to function&gt;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// foo 函数上下文的变量对象</span></span><br><span class="line">VO(foo functionContext) = &#123;</span><br><span class="line"><span class="symbol">   num:</span> <span class="number">10</span>,</span><br><span class="line"><span class="symbol">   b:</span> <span class="number">5</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：函数表达式并不包括在变量对象中。</strong></p>
+<h3 id="不同执行上下文中的变量对象"><a href="#不同执行上下文中的变量对象" class="headerlink" title="不同执行上下文中的变量对象"></a>不同执行上下文中的变量对象</h3><p>执行上下文包括：<strong>全局上下文、函数上下文和 eval() 上下文。</strong></p>
+<h4 id="全局上下文中的变量对象"><a href="#全局上下文中的变量对象" class="headerlink" title="全局上下文中的变量对象"></a>全局上下文中的变量对象</h4><p>这里我们先来了解一下什么是全局对象：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">全局对象（<span class="keyword">global</span> <span class="keyword">object</span>）是指在进入任何执行上下文之前就已经创建了的对象。</span><br><span class="line">这个对象只有一份，它的属性在程序中的任何地方都可以访问，全局对象的生命周期终止于程序退出的那一刻。</span><br></pre></td></tr></table></figure></p>
+<p>全局对象初始化时系统将创建并初始化一系列原始属性，例如：Math、String、Date、parseInt、window等等，之后是我们在全局上下文中自己定义的全局变量。在 DOM 中，全局对象的 window 属性可以引用全局对象自身，全局上下文环境的 this 属性也可以引用全局对象。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局执行上下文环境</span></span><br><span class="line">EC(globalContext) = &#123;</span><br><span class="line">   <span class="comment">// 全局对象（全局上下文环境的变量对象） </span></span><br><span class="line">   <span class="built_in">global</span>: &#123;</span><br><span class="line">      Math: &lt;<span class="params">...</span>&gt;,</span><br><span class="line">      <span class="built_in">String</span>: &lt;<span class="params">...</span>&gt;,</span><br><span class="line">      <span class="params">...</span></span><br><span class="line">      <span class="params">...</span></span><br><span class="line">      window: <span class="built_in">global</span>     <span class="comment">// 引用全局对象自身</span></span><br><span class="line">   &#125;,</span><br><span class="line">   </span><br><span class="line">   <span class="comment">// this 属性</span></span><br><span class="line">   this: <span class="built_in">global</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 作用域链</span></span><br><span class="line">   <span class="params">...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);               <span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a);        <span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.a);          <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>因此，在全局上下文环境中，变量对象用全局对象来表示。</p>
+<h4 id="函数上下文中的变量对象"><a href="#函数上下文中的变量对象" class="headerlink" title="函数上下文中的变量对象"></a>函数上下文中的变量对象</h4><p>在函数上下文中，变量对象用活动对象 AO（Active Object）来表示。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">VO</span><span class="params">(functionContext)</span></span> = AO</span><br></pre></td></tr></table></figure></p>
+<p>活动对象是在进入函数上下文时刻被创建的，它是通过函数的 arguments 属性进行初始化。arguments 也是一个对象。<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AO = &#123;</span><br><span class="line">   arguments: &#123;</span><br><span class="line">      ...</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>arguments 是活动对象的一个属性，它也是一个对象，包括以下属性：</p>
+<ol>
+<li>callee - 指向当前函数的引用</li>
+<li>length - 真正传递的参数个数</li>
+<li>properties-indexes - index 是字符串类型的整数，例如”1”: “aa”，类似于数组类型，也可以通过arguments[1]来访问，但是不能用数组的方法（push, pop等等）。另外，properties-indexes 的值和实际传递进来的参数之间是共享的，一个改变，另一个也随之改变。</li>
+</ol>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x, y, z</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">   <span class="comment">// 声明的函数参数数量</span></span><br><span class="line">   <span class="built_in">console</span>.log(foo.length);      <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 实际传递进来的参数数量</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">arguments</span>.length);      <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// arguments 的 callee 属性指向当前函数</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">arguments</span>.callee === foo)   <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 参数共享</span></span><br><span class="line">   <span class="built_in">console</span>.log(x === <span class="built_in">arguments</span>[<span class="number">0</span>]);      <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(x);      <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">arguments</span>[<span class="number">0</span>] = <span class="number">20</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(x);   <span class="comment">// 20</span></span><br><span class="line"></span><br><span class="line">   x = <span class="number">30</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">arguments</span>[<span class="number">0</span>]);    <span class="comment">// 30</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 但是注意，没有传递进来的参数 z ，和第3个索引值是不共享的</span></span><br><span class="line">   z = <span class="number">40</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="built_in">arguments</span>[<span class="number">2</span>]);      <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">arguments</span>[<span class="number">2</span>] = <span class="number">50</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(z);      <span class="comment">// 40</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(<span class="number">10</span>, <span class="number">20</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="代码是如何被处理的"><a href="#代码是如何被处理的" class="headerlink" title="代码是如何被处理的"></a>代码是如何被处理的</h3><p>在第1节中我们讲过<a href="http://www.jianshu.com/p/04fe77235dac" target="_blank" rel="noopener">js 代码的编译过程</a>，其中有一步叫作<strong>预编译</strong>，是说在代码执行前的几微秒会首先对代码进行编译，形成词法作用域，然后执行。</p>
+<p>那么执行上下文的代码就就可以分成两个阶段来处理：</p>
+<ol>
+<li>进入执行上下文（预编译）</li>
+<li>执行代码</li>
+</ol>
+<p>而变量对象的修改变化和这两个阶段是紧密相关的。<br>并且所有类型的执行上下文都会有这2个阶段。</p>
+<h4 id="进入执行上下文"><a href="#进入执行上下文" class="headerlink" title="进入执行上下文"></a>进入执行上下文</h4><p>当引擎进入执行上下文时（代码还未执行），VO 里已经包含了一些属性：</p>
+<ol>
+<li><p><strong>函数的所有形参（如果是函数执行上下文）</strong><br>由名称和对应值组成的一个变量对象的属性被创建，如果没有传递对应的实参，那么由名称和 undefined 组成的一种变量对象的属性也会被创建。</p>
+</li>
+<li><p><strong>所有的函数声明（Function Declaration - FD）</strong><br>由名称和对应值（函数对象 function object）组成的一个变量对象的属性被创建，如果变量对象已经存在相同名称函数的属性，则完全替换这个属性。</p>
+</li>
+<li><p><strong>所有的变量声明（Variable Declaration - var）</strong><br>由名称和对应值（在预编译阶段所有变量值都是 undefined）组成的一个变量对象的属性被创建，如果变量名和已经声明的形参或者函数相同，则变量名不会干扰已经存在的这类属性，如果已经存在相同的变量名，则跳过当前声明的变量名。</p>
+</li>
+</ol>
+<p><strong>注意：变量碰到相同名称的变量是忽略，函数碰到相同名称的函数是覆盖。</strong></p>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> c = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> d = <span class="function"><span class="keyword">function</span> <span class="title">_d</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line">   (<span class="function"><span class="keyword">function</span> <span class="title">f</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
+<p>当进入带有实参10的 foo 函数上下文时（预编译时，此时代码还没有执行），AO 结构如下：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AO(foo) = &#123;</span><br><span class="line"><span class="symbol">   a:</span> <span class="number">10</span>,</span><br><span class="line"><span class="symbol">   b:</span> undefined,</span><br><span class="line"></span><br><span class="line"><span class="symbol">   c:</span> undefined,</span><br><span class="line"><span class="symbol">   bar:</span> <span class="params">&lt;reference to FunctionDelcaration "bar"&gt;</span>,</span><br><span class="line"><span class="symbol">   d:</span> undefined </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>注意，函数表达式 f 并不包含在活动对象 AO 内。<br>也就是说，只有函数声明会被包含在变量对象 VO 里面，函数表达式并不会影响变量对象。</p>
+<p>行内函数表达式 _d 则只能在该函数内部可以使用， 也不会包含在 VO 内。</p>
+<p>这之后，就会进入第2个阶段，代码执行阶段。</p>
+<h4 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h4><p>在这个阶段，AO/VO 已经有了属性（并不是所有的属性都有值，大部分属性的值还是系统默认的初始值 undefined）。</p>
+<p>AO 在代码执行阶段被修改如下：<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">AO</span>[<span class="string">'c'</span>] = <span class="number">5</span>;</span><br><span class="line"><span class="symbol">AO</span>[<span class="string">'d'</span>] = &lt;reference to <span class="symbol">FunctionDelcaration</span> <span class="string">"_d"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>再次要提醒大家，因为函数表达式 _d 已经保存到了声明的变量 d 上面，所以变量 d 仍然存在于 VO/AO 中。我们可以通 d() 来执行函数。但是函数表达式 f 却不存在于 VO/AO 中，也就是说，如果我们想尝试调用 f 函数，不管在函数定义前还是定义后，都会出现一个错误”f is not defined”，未保存的函数表达式只有在它自己的定义或递归中才能被调用。</p>
+<p>再来一个经典例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(x);      <span class="comment">// function</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(x);      <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line">x = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(x);      <span class="comment">// 20</span></span><br></pre></td></tr></table></figure></p>
+<p>这里为什么是这样的结果呢？</p>
+<p>上边我们说过，在代码执行之前的预编译，会为变量对象生成一些属性，先是形参，再是函数声明，最后是变量，并且变量并不会影响同名的函数声明。</p>
+<p>所以，在进入执行上下文时，AO/VO 结构如下：<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AO = &#123;</span><br><span class="line">   <span class="keyword">x</span>: &lt;reference <span class="keyword">to</span> FunctionDeclaration <span class="string">"x"</span>&gt;</span><br><span class="line"></span><br><span class="line">   // 在碰到变量声明 <span class="keyword">x</span> 时，因为已经存在了函数声明 <span class="keyword">x</span> ，所以会忽略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>紧接着，在代码执行阶段，AO/VO 被修改如下：<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">AO</span>[<span class="string">'x'</span>] = <span class="number">10</span>;</span><br><span class="line"><span class="symbol">AO</span>[<span class="string">'x'</span>] = <span class="number">20</span>;</span><br></pre></td></tr></table></figure></p>
+<p>希望大家可以好好理解变量对象，对于理解我们后边要讲的作用域链有很大的帮助。</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>有一些文章说过：</p>
+<blockquote>
+<p>不管是使用 var 关键字（在全局上下文）还是不使用 var 关键字（在任何地方），都可以声明一个变量。</p>
+</blockquote>
+<p><strong>请记住，这是错误的观念。</strong></p>
+<p><strong>任何时候，变量都只能通过使用 var 关键字来声明（ES6 之前）</strong>。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">a</span> = <span class="number">10</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>上面的赋值语句，仅仅是给全局对象创建了一个新属性（在在非严格模式，严格模式下会报错），但注意，它不是变量。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript 规范中变量的概念。</p>
+<p>让我们通过一个例子来看一下两者的区别：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">console.log(a)<span class="comment">;        // undefined</span></span><br><span class="line">console.log(b)<span class="comment">;        // 报错，b is not defined</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">b</span> = <span class="number">10</span><span class="comment">;</span></span><br><span class="line">var a = <span class="number">20</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>只要我们很好的理解了：变量对象、预编译阶段和执行代码阶段，就可以迅速的给出答案。</p>
+<p>预编译（进入上下文）阶段：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VO = &#123;</span><br><span class="line">   a: undefined</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看到，因为 b 不是通过 var 声明的，所以这个阶段根本就没有 b ，b 只有在代码执行阶段才会出现。但是在这个例子中，还没有执行到 b 那就已经报错了。</p>
+<p>我们稍微更改一下示例代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);             <span class="comment">// 10 代码执行阶段被创建</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.b);      <span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.b);        <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 20 代码执行阶段被修改</span></span><br></pre></td></tr></table></figure></p>
+<p>关于变量，还有一个很重要的知识点。</p>
+<p><strong>变量不能用 delete 操作符来删除。</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a);    <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> a);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a);    <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.b);    <span class="comment">// 20</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> b);    <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.b);    <span class="comment">// 20</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：这个规则在 eval() 上下文中不起作用。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">'var a = 10;'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a);    <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> a);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a);    <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这一节中我们讲了变量对象，下一节就是我们的重头戏 - <strong>作用域链</strong>。希望大家可以持续关注我，我们一起进步。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/img/wechatpay.jpg" alt="liuxuan 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/img/alipay.jpg" alt="liuxuan 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/执行上下文/" rel="tag"># 执行上下文</a>
+          
+            <a href="/tags/变量对象/" rel="tag"># 变量对象</a>
+          
+            <a href="/tags/Execution-Context/" rel="tag"># Execution Context</a>
+          
+        </div>
+      
+
+      <div>
+            
+              
+            
+      </div>
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/03/javascript_05_execution_context/" rel="next" title="JS学习系列 05 - 执行上下文">
+                <i class="fa fa-chevron-left"></i> JS学习系列 05 - 执行上下文
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/10/html_meta_viewport/" rel="prev" title="HTML - 移动端 meta viewport">
+                HTML - 移动端 meta viewport <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+              src="/assets/img/avatar.jpg"
+              alt="liuxuan" />
+            
+              <p class="site-author-name" itemprop="name">liuxuan</p>
+              <p class="site-description motion-element" itemprop="description">科大讯飞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行上下文包含什么"><span class="nav-number">1.</span> <span class="nav-text">执行上下文包含什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量对象"><span class="nav-number">2.</span> <span class="nav-text">变量对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同执行上下文中的变量对象"><span class="nav-number">3.</span> <span class="nav-text">不同执行上下文中的变量对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局上下文中的变量对象"><span class="nav-number">3.1.</span> <span class="nav-text">全局上下文中的变量对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数上下文中的变量对象"><span class="nav-number">3.2.</span> <span class="nav-text">函数上下文中的变量对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码是如何被处理的"><span class="nav-number">4.</span> <span class="nav-text">代码是如何被处理的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进入执行上下文"><span class="nav-number">4.1.</span> <span class="nav-text">进入执行上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码执行"><span class="nav-number">4.2.</span> <span class="nav-text">代码执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">5.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuxuan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">访问总数&#58;</span>
+    
+    <span title="访问总数">16.7k</span>
+  
+</div>
+
+
+  <!--
+  <div class="powered-by">
+    <i class="fa fa-user"></i><span id="busuanzi_container_site_uv">
+      访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+      访问总数：<span id="busuanzi_value_site_pv"></span>次
+    </span>
+  </div>-->
+  <!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>-->
+
+
+
+  <!--<span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>-->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytyfpVPi';
+      var conf = '34d2fc826ea4d79b425df9b40e745c76';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("n3wjA02Ad7yQX9pSw1nsuKkC-gzGzoHsz", "E5r737ij45xjWO6hOKs77XMN");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- my add -->
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- -->
+</body>
+</html>

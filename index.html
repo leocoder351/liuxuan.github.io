@@ -11,6 +11,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
 
 
 
@@ -75,17 +90,17 @@
 
 
 
-<meta name="description" content="现就职于科大讯飞">
+<meta name="description" content="科大讯飞">
 <meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
 <meta property="og:type" content="website">
 <meta property="og:title" content="liuxuan的博客">
-<meta property="og:url" content="//liuxuan.site/index.html">
+<meta property="og:url" content="//blog.liuxuan.site/index.html">
 <meta property="og:site_name" content="liuxuan的博客">
-<meta property="og:description" content="现就职于科大讯飞">
+<meta property="og:description" content="科大讯飞">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="liuxuan的博客">
-<meta name="twitter:description" content="现就职于科大讯飞">
+<meta name="twitter:description" content="科大讯飞">
 
 
 
@@ -115,7 +130,9 @@
 
 
 
-  <link rel="canonical" href="//liuxuan.site/"/>
+  <link rel="canonical" href="//blog.liuxuan.site/"/>
+
+
 
 
 
@@ -153,7 +170,7 @@
   <div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
-    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/assets/img/forkme_left_darkblue.png" alt="Fork me on GitHub"></a>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
@@ -239,9 +256,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -270,7 +321,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2018/04/06/article-title/">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/04/03/front_end_test_karma_jasmine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuxuan">
@@ -289,7 +340,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/06/article-title/" itemprop="url">article title</a></h1>
+                <a class="post-title-link" href="/2018/04/03/front_end_test_karma_jasmine/" itemprop="url">搭建 karma + jasmine 测试环境</a></h1>
         
 
         <div class="post-meta">
@@ -301,8 +352,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-06T18:06:16+08:00">
-                2018-04-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T10:36:00+08:00">
+                2018-04-03
               </time>
             
 
@@ -311,6 +362,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端测试/" itemprop="url" rel="index">
+                    <span itemprop="name">前端测试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -321,8 +394,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/04/06/article-title/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2018/04/06/article-title/" class="cy_cmt_count" data-xid="2018/04/06/article-title/" itemprop="commentsCount" ></span>
+                <a href="/2018/04/03/front_end_test_karma_jasmine/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2018/04/03/front_end_test_karma_jasmine/" class="cy_cmt_count" data-xid="2018/04/03/front_end_test_karma_jasmine/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -330,7 +403,7 @@
 
           
           
-             <span id="/2018/04/06/article-title/" class="leancloud_visitors" data-flag-title="article title">
+             <span id="/2018/04/03/front_end_test_karma_jasmine/" class="leancloud_visitors" data-flag-title="搭建 karma + jasmine 测试环境">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -355,360 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  7字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="这是测试"><a href="#这是测试" class="headerlink" title="这是测试"></a>这是测试</h2><h4 id="你好-hexo"><a href="#你好-hexo" class="headerlink" title="你好 hexo"></a>你好 hexo</h4>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2018/04/06/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/06/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-06T18:00:50+08:00">
-                2018-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2018/04/06/hello-world/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2018/04/06/hello-world/" class="cy_cmt_count" data-xid="2018/04/06/hello-world/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2018/04/06/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  78字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/07/09/prevent-spiders/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/09/prevent-spiders/" itemprop="url">反击爬虫，前端工程师的脑洞可以有多大？</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T10:36:00+08:00">
-                2017-07-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/07/09/prevent-spiders/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/07/09/prevent-spiders/" class="cy_cmt_count" data-xid="2017/07/09/prevent-spiders/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/07/09/prevent-spiders/" class="leancloud_visitors" data-flag-title="反击爬虫，前端工程师的脑洞可以有多大？">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,196字
+                  879字
                 </span>
               
 
@@ -746,13 +466,17 @@
 
       
         
-          <p><img src="http://7tszky.com1.z0.glb.clouddn.com/FmIvXiOiFFET4oPGkVU6rdDCl87S" width="400"></p>
-
-<p><em>—— 同时发表于<a href="http://imweb.io/topic/595b7161d6ca6b4f0ac71f05" target="_blank" rel="noopener">imweb.io</a></em></p>
-<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h3><p>对于一张网页，我们往往希望它是结构良好，内容清晰的，这样搜索引擎才能准确地认知它。<br>而反过来，又有一些情景，我们不希望内容能被轻易获取，比方说电商网站的交易额，教育网站的题目等。因为这些内容，往往是一个产品的生命线，必须做到有效地保护。这就是<strong>爬虫与反爬虫</strong>这一话题的由来。</p>
+          <p><img src="http://image.liuxuan.site/blog/20180407/test_karma.jpg?imageView2/1/w/1000/h/400" alt="test-karma"></p>
+<p>在前端开发的过程中，我们会写很多的功能函数，这样就会涉及到对这些功能函数进行单元测试，而karma就是一个很好用的可以在浏览器环境中进行测试的集成工具。</p>
+<h3 id="什么是-karma"><a href="#什么是-karma" class="headerlink" title="什么是 karma"></a>什么是 karma</h3><p>karma 是由Angular团队开发的一款测试工具，帮助开发者更好更快速地在多种环境下执行测试代码，拿到测试结果。在运行的时候，它会自动启动配置好的浏览器，同时也会启动一个 node 服务器，然后在启动好的浏览器中执行测试代码，并将测试代码执行结果传回给 node 服务器，然后 node 服务器在打印出收到的执行结果。</p>
+<h3 id="安装-karma"><a href="#安装-karma" class="headerlink" title="安装 karma"></a>安装 karma</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm  install karma -D</span></span><br></pre></td></tr></table></figure>
+<p>这里安装到项目路径下就可以了（-D 是 –save-dev 的简写）。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./<span class="keyword">node</span><span class="title">-modules</span>/.bin/karma init</span><br></pre></td></tr></table></figure>
+<p>这里如果不想每次都执行本地路径下的 karma 命令，可以在全局安装 karma-cli<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install karma-cli -g</span></span><br></pre></td></tr></table></figure></p>
+<p>以后就可以在任何路径执行 <strong>karma start</strong> 并且运行的 karma 都是在当前项目下安装的版本。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/07/09/prevent-spiders/#more" rel="contents">
+            <a class="btn" href="/2018/04/03/front_end_test_karma_jasmine/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -772,6 +496,10 @@
 
     <footer class="post-footer">
       
+
+      <div>
+            
+      </div>
 
       
 
@@ -803,7 +531,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/06/05/my-fairy-tale4/">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/03/10/javascript_07_label_statement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuxuan">
@@ -822,7 +550,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/05/my-fairy-tale4/" itemprop="url">失眠故事五【花匠与候鸟】</a></h1>
+                <a class="post-title-link" href="/2018/03/10/javascript_07_label_statement/" itemprop="url">JS学习系列 07 - 标签声明（Label Statement）</a></h1>
         
 
         <div class="post-meta">
@@ -834,8 +562,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-05T03:55:00+08:00">
-                2017-06-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-10T10:36:00+08:00">
+                2018-03-10
               </time>
             
 
@@ -844,6 +572,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -854,8 +604,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2017/06/05/my-fairy-tale4/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/06/05/my-fairy-tale4/" class="cy_cmt_count" data-xid="2017/06/05/my-fairy-tale4/" itemprop="commentsCount" ></span>
+                <a href="/2018/03/10/javascript_07_label_statement/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2018/03/10/javascript_07_label_statement/" class="cy_cmt_count" data-xid="2018/03/10/javascript_07_label_statement/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -863,7 +613,7 @@
 
           
           
-             <span id="/2017/06/05/my-fairy-tale4/" class="leancloud_visitors" data-flag-title="失眠故事五【花匠与候鸟】">
+             <span id="/2018/03/10/javascript_07_label_statement/" class="leancloud_visitors" data-flag-title="JS学习系列 07 - 标签声明（Label Statement）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -888,7 +638,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,108字
+                  1,403字
                 </span>
               
 
@@ -904,7 +654,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4分钟
+                  6分钟
                 </span>
               
             </div>
@@ -926,12 +676,14 @@
 
       
         
-          <p><img src="/assets/blogImg/diary-29.jpg" alt="Picture by Matt Carlson"></p>
-<h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><p>每个春天，候鸟都会来到这片花田。<br>每个不是春天的季节，花匠总在认真地打理花田。花匠想让一切看起来未来可期，因为他喜欢这只候鸟。喜欢，是因为他们都爱花。那些关于花的话题，他们永远聊不完。</p>
-<p>有一个春天，候鸟跟花匠说起了她家乡的雪莲。<br>这种花，花匠从来没听说过。但每次说起雪莲，花匠都能注意到她眼中飞扬的光亮。是的，那是候鸟最心爱的花儿。</p>
+          <p><img src="http://image.liuxuan.site/blog/20180407/label_statement.jpg?imageView2/1/w/1000/h/400" alt="label-statement"></p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>假设有这么一道题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'done'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>我想要当 j = 2 的时候就退出所有的for语句，打印最后的 done ，你会怎么做？</p>
+<p>可能有的同学会想到这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(j);</span><br><span class="line">            <span class="keyword">if</span> (j === <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'done'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这样可以实现，但是又多写了一个函数，那么有没有别的办法呢？</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/05/my-fairy-tale4/#more" rel="contents">
+            <a class="btn" href="/2018/03/10/javascript_07_label_statement/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -951,6 +703,10 @@
 
     <footer class="post-footer">
       
+
+      <div>
+            
+      </div>
 
       
 
@@ -982,7 +738,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/05/22/diary-2017-0521-0527/">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/12/10/html_meta_viewport/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuxuan">
@@ -1001,7 +757,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/22/diary-2017-0521-0527/" itemprop="url">江南见闻</a></h1>
+                <a class="post-title-link" href="/2017/12/10/html_meta_viewport/" itemprop="url">HTML - 移动端 meta viewport</a></h1>
         
 
         <div class="post-meta">
@@ -1013,8 +769,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-22T10:36:00+08:00">
-                2017-05-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-10T10:36:00+08:00">
+                2017-12-10
               </time>
             
 
@@ -1023,6 +779,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1033,8 +811,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2017/05/22/diary-2017-0521-0527/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/05/22/diary-2017-0521-0527/" class="cy_cmt_count" data-xid="2017/05/22/diary-2017-0521-0527/" itemprop="commentsCount" ></span>
+                <a href="/2017/12/10/html_meta_viewport/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2017/12/10/html_meta_viewport/" class="cy_cmt_count" data-xid="2017/12/10/html_meta_viewport/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -1042,7 +820,7 @@
 
           
           
-             <span id="/2017/05/22/diary-2017-0521-0527/" class="leancloud_visitors" data-flag-title="江南见闻">
+             <span id="/2017/12/10/html_meta_viewport/" class="leancloud_visitors" data-flag-title="HTML - 移动端 meta viewport">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1067,7 +845,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,385字
+                  1,429字
                 </span>
               
 
@@ -1105,15 +883,16 @@
 
       
         
-          <p><img src="/assets/blogImg/diary-23.jpg" width="500"></p>
-
-<h3 id="扬起帆"><a href="#扬起帆" class="headerlink" title="扬起帆"></a>扬起帆</h3><p>这个4月真的特别丧…<br>开心的事情屈指可数，貌似也只有朴树的新专辑了。</p>
-<p>病后状态一直不好，工作时脑后阴风习习<br>bug，变成了巨大的飞蛾，每每衔着灵魂四方飘游。<br>周四晚，无耻地逃了一个会议<br>下班，拖着疲惫的身体，径直就飞往了杭州。</p>
-<p>都这么累了，问自己为什么又在路上了呢？<br>可能只是我觉得，旅行的时候不用去想以前和以后。<br>但旅行那么短，而生活那么长<br>那就更应该不停的出发吧？即使只是一场短暂的幻觉。</p>
-<p>我这么想着的时候，这场幻觉正变得越来越真实。<br>凌晨让头脑额外清醒，飞机下出现了新城<br>灯火穿透了夜色与云层，越来越浓，背后的飞蛾被引诱扑了下去——<br>烟消云散。</p>
+          <p><img src="http://image.liuxuan.site/blog/20180407/meta_viewport.jpg?imageView2/1/w/1000/h/400" alt="meta-viewport"></p>
+<p>我们在做响应式布局的时候，肯定要考虑到适配移动端的屏幕，大多数同学也一定复制粘贴过下面这段代码：<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta <span class="attr">name="viewport"</span> <span class="attr">content="width=device-width,</span> <span class="attr">initial-scale=1.0,</span> <span class="attr">maximum-scale=1.0,</span> <span class="attr">user-scalable=0"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>添加了这段代码以后，我们在移动端看到的显示效果就非常好，整个页面不会缩成一团。但是很多时候我们只是拿来用了，没有去理解这段代码究竟干了什么，为什么会影响移动端页面的布局效果，它又是怎么起作用的。今天我们就花点时间来彻底搞明白 <strong>viewport 到底是什么</strong>。</p>
+<h3 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h3><p>在讨论 viewport 之前，我们需要理解一些单位的概念：</p>
+<ul>
+<li><strong>设备像素 / 物理像素（physical pixels）</strong><br>是指屏幕的实际物理像素点，比如 iPhone6 Plus 是 1920*1080 的像素分辨率，那么代表它纵向有 1920 个物理像素点，横向有 1080 个物理像素点。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/22/diary-2017-0521-0527/#more" rel="contents">
+            <a class="btn" href="/2017/12/10/html_meta_viewport/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1133,6 +912,10 @@
 
     <footer class="post-footer">
       
+
+      <div>
+            
+      </div>
 
       
 
@@ -1164,7 +947,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/04/22/diary-2017-0416-0422/">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuxuan">
@@ -1183,7 +966,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/22/diary-2017-0416-0422/" itemprop="url">病中记 4.16-4.22</a></h1>
+                <a class="post-title-link" href="/2017/08/10/javascript_06_variable_object/" itemprop="url">JS学习系列 06 - 变量对象</a></h1>
         
 
         <div class="post-meta">
@@ -1195,8 +978,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-22T10:36:00+08:00">
-                2017-04-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T10:36:00+08:00">
+                2017-08-10
               </time>
             
 
@@ -1205,6 +988,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1215,8 +1020,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2017/04/22/diary-2017-0416-0422/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/04/22/diary-2017-0416-0422/" class="cy_cmt_count" data-xid="2017/04/22/diary-2017-0416-0422/" itemprop="commentsCount" ></span>
+                <a href="/2017/08/10/javascript_06_variable_object/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2017/08/10/javascript_06_variable_object/" class="cy_cmt_count" data-xid="2017/08/10/javascript_06_variable_object/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -1224,7 +1029,7 @@
 
           
           
-             <span id="/2017/04/22/diary-2017-0416-0422/" class="leancloud_visitors" data-flag-title="病中记 4.16-4.22">
+             <span id="/2017/08/10/javascript_06_variable_object/" class="leancloud_visitors" data-flag-title="JS学习系列 06 - 变量对象">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1249,7 +1054,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  675字
+                  3,150字
                 </span>
               
 
@@ -1265,7 +1070,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2分钟
+                  12分钟
                 </span>
               
             </div>
@@ -1287,15 +1092,16 @@
 
       
         
-          <p><img src="/assets/blogImg/diary-22.jpg" alt="摄于清明" width="400"></p>
-
-<p>4月马上就要过去<br>似乎日历上，径直就能从3月翻到5月。<br>时间怎么这么快？</p>
-<p>长眠于4月之前的海子，对于时间，有一个生动的说法叫“打马而过”<br>有时觉得，这种匀速流淌不可变的东西，才是真TM的残忍。<br>长江水的结局，就是流到太平洋<br>没有任何意外能让它流到大西洋</p>
-<p>所以你说，有时意外的中断多可爱？<br>红绿灯多好呀，给你走走停停的机会<br>小病多好呀，静下来休息和幻想<br>悲伤多好呀，欢乐可放歌，悲伤可饮酒</p>
-<p>工作忙完了这阵子<br>那条安静而蜿蜒的时间之河，好像真的幻化成了打马的鞭子<br>梦中啪的一声惊响，病倒了。</p>
+          <p><img src="http://image.liuxuan.site/blog/20180407/variable_object.jpg?imageView2/1/w/1000/h/400" alt="variable-object"></p>
+<p>上一节我们讨论了<a href="http://www.jianshu.com/p/05641baa5134" target="_blank" rel="noopener">执行上下文</a>，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。</p>
+<p><strong>变量对象</strong>就是<strong>执行上下文</strong>和<strong>作用域链</strong>中间的桥梁。<br>剧透一下，神秘的 <strong>this</strong> 就存在于执行上下文环境之中！<br>当然，之后我会单独用几节来彻底讲明白 <strong>this 到底是什么</strong>（其实 this 很简单）。</p>
+<p>接下来，我们进入正文。</p>
+<h3 id="执行上下文包含什么"><a href="#执行上下文包含什么" class="headerlink" title="执行上下文包含什么"></a>执行上下文包含什么</h3><p>一个执行上下文我们可以抽象的理解为对象（object）。<br>每一个执行上下文都有一些属性（又称为上下文状态），它们用来追踪关联代码的执行进度。</p>
+<p>我用一个结构图来说明：</p>
+<p><img src="http://image.liuxuan.site/blog/20180324/variable_object.png" alt="执行上下文环境 object"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/04/22/diary-2017-0416-0422/#more" rel="contents">
+            <a class="btn" href="/2017/08/10/javascript_06_variable_object/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1315,6 +1121,10 @@
 
     <footer class="post-footer">
       
+
+      <div>
+            
+      </div>
 
       
 
@@ -1346,7 +1156,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/03/12/diary-2017-0305-0311/">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/06/03/javascript_05_execution_context/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liuxuan">
@@ -1365,7 +1175,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/12/diary-2017-0305-0311/" itemprop="url">我与《刺客信条》 3.5-3.11</a></h1>
+                <a class="post-title-link" href="/2017/06/03/javascript_05_execution_context/" itemprop="url">JS学习系列 05 - 执行上下文</a></h1>
         
 
         <div class="post-meta">
@@ -1377,8 +1187,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T10:36:00+08:00">
-                2017-03-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T10:36:00+08:00">
+                2017-06-03
               </time>
             
 
@@ -1387,6 +1197,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1397,8 +1229,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2017/03/12/diary-2017-0305-0311/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/03/12/diary-2017-0305-0311/" class="cy_cmt_count" data-xid="2017/03/12/diary-2017-0305-0311/" itemprop="commentsCount" ></span>
+                <a href="/2017/06/03/javascript_05_execution_context/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2017/06/03/javascript_05_execution_context/" class="cy_cmt_count" data-xid="2017/06/03/javascript_05_execution_context/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -1406,7 +1238,7 @@
 
           
           
-             <span id="/2017/03/12/diary-2017-0305-0311/" class="leancloud_visitors" data-flag-title="我与《刺客信条》 3.5-3.11">
+             <span id="/2017/06/03/javascript_05_execution_context/" class="leancloud_visitors" data-flag-title="JS学习系列 05 - 执行上下文">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1431,7 +1263,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  927字
+                  1,107字
                 </span>
               
 
@@ -1447,7 +1279,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3分钟
+                  4分钟
                 </span>
               
             </div>
@@ -1469,14 +1301,15 @@
 
       
         
-          <p><img src="/assets/blogImg/diary-21.jpg" alt=""></p>
-<h4 id="一"><a href="#一" class="headerlink" title="一"></a>一</h4><p>这周感觉我的vscode已经“玩得贼6”<br>一切来之不易，毕竟是五次卸载sublime改掉的习惯。<br>不过这丝毫不影响我对sublime的喜爱<br>有人问为什么？<br>没法解释。大话西游里也曾说<br>喜欢一个编辑器需要理由吗？</p>
-<p>但有点令人沮丧的是，“喜欢”这件事确实是会变的。</p>
-<p>我有另外的感受，特别是在这周<br>迫不及待地把《刺客信条》电影看完的时候…<br>感觉特别的失望。<br>就是那种经行漫长的等候，期待一场肆无忌惮的雨<br>最后只听到了低沉雷声的空洞感。<br>但是，我也一曾很喜欢这个系列啊。</p>
-<p>可能，再也不会有一款游戏，能给我带来这样的触动了吧。<br>五年前，我还写过点文字<a href="//litten.me/2012/12/18/assassins-creed/">《记“刺客信条”三部曲：水月镜像，无心去来》</a>。</p>
+          <p><img src="http://image.liuxuan.site/blog/20180407/execution_context.jpeg?imageView2/1/w/1000/h/400" alt="execution-context"></p>
+<p>在我们前面理解了作用域之后，“作用域链”这个概念就产生了。那么作用域链是什么意思，它又是怎么形成的，跟哪些概念有关系，这就是我接下来几章想和大家探讨的内容：<strong>执行上下文、变量对象和作用域链</strong>。根据顺序我们也可以看出来，想要理解作用域链，执行上下文是我们碰到的第一个坎。</p>
+<p>这一章我们就来讨论一下到底什么是<strong>执行上下文</strong>。</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>当 JS 引擎开始执行预编译生成的代码时，就会进入到一个<strong>执行上下文</strong>（Executable Code - 简称 <strong>EC</strong>）。</p>
+<p>在 ECMA 标准规范里并没有从技术角度去定义 EC 的具体类型和结构，这个是在实现 ECMAScript 引擎时需要考虑的问题。</p>
+<p>但是在逻辑上，我们可以将活动的执行上下文看成一个<strong>栈结构</strong>。栈底部永远是<strong>全局上下文（global context）</strong>，而顶部就是当前活动的执行上下文。执行到当前代码时，上下文入栈，执行完毕后，上下文出栈。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/12/diary-2017-0305-0311/#more" rel="contents">
+            <a class="btn" href="/2017/06/03/javascript_05_execution_context/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1497,185 +1330,9 @@
     <footer class="post-footer">
       
 
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//liuxuan.site/2017/02/19/diary-2017-0212-0218/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/19/diary-2017-0212-0218/" itemprop="url">决战前后 2.12 - 2.18</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      <div>
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-19T10:36:00+08:00">
-                2017-02-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/02/19/diary-2017-0212-0218/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://liuxuan.site/2017/02/19/diary-2017-0212-0218/" class="cy_cmt_count" data-xid="2017/02/19/diary-2017-0212-0218/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/02/19/diary-2017-0212-0218/" class="leancloud_visitors" data-flag-title="决战前后 2.12 - 2.18">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  525字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="/assets/blogImg/diary-20.jpg" alt="" width="450"></p>
-
-<p>终于是把T3评审的事情忙完<br>周末躺在床上整个人都不想动，空虚无比，宛如智障。<br>这种状态，只有高考结束时出现过<br>那时我的日记里写着：<br>“我站在太阳下，就是金灿灿的咸鱼；<br>我躺在被窝里，就是阴绵绵的豆腐脑…”<br>别说这是神比喻。</p>
-<p>因为这次评审，确实耗费了挺大的精力<br>关键还是在年后返工的第一周，你正吃着元宵唱着歌<br>突然跑出个班主任说：咱放完寒假就高考，好吗？<br>好生气哦，但还要保持微笑。<br>况且想想，年终奖好像还没发哎…</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/19/diary-2017-0212-0218/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
+      </div>
 
       
 
@@ -1698,7 +1355,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1734,11 +1391,11 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image"
-                src="/assets/img/avatar.jpg"
-                alt="liuxuan" />
+              src="/assets/img/avatar.jpg"
+              alt="liuxuan" />
             
               <p class="site-author-name" itemprop="name">liuxuan</p>
-              <p class="site-description motion-element" itemprop="description">现就职于科大讯飞</p>
+              <p class="site-description motion-element" itemprop="description">科大讯飞</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -1748,22 +1405,31 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
             
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">29</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -1818,13 +1484,14 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-      <span class="post-meta-item-text">Site words total count&#58;</span>
+      <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="Site words total count">67.7k</span>
+    <span title="访问总数">16.7k</span>
   
 </div>
 
 
+  <!--
   <div class="powered-by">
     <i class="fa fa-user"></i><span id="busuanzi_container_site_uv">
       访问用户：<span id="busuanzi_value_site_uv"></span>
@@ -1833,7 +1500,7 @@
     <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
       访问总数：<span id="busuanzi_value_site_pv"></span>次
     </span>
-  </div>
+  </div>-->
   <!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>-->
 
 
@@ -2003,6 +1670,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

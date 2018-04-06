@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+
+  <meta name="keywords" content="Javascript,作用域," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="liuxuan的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在 ES5 及之前版本，JavaScript 只拥有函数作用域，没有块作用域（with 和 try…catch 除外）。在 ES6 中，JS 引入了块作用域，{ } 内是单独的一个作用域。采用 let 或者 const 声明的变量会挟持所在块的作用域，也就是说，这声明关键字会将变量绑定到所在的任意作用域中（通常是 {…} 内部）。 今天，我们就来深入研究一下函数作用域和块作用域。 函数中的作用域">
+<meta name="keywords" content="Javascript,作用域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS学习系列 03 - 函数作用域和块作用域">
+<meta property="og:url" content="//blog.liuxuan.site/2017/04/10/javascript_03__function_scope/index.html">
+<meta property="og:site_name" content="liuxuan的博客">
+<meta property="og:description" content="在 ES5 及之前版本，JavaScript 只拥有函数作用域，没有块作用域（with 和 try…catch 除外）。在 ES6 中，JS 引入了块作用域，{ } 内是单独的一个作用域。采用 let 或者 const 声明的变量会挟持所在块的作用域，也就是说，这声明关键字会将变量绑定到所在的任意作用域中（通常是 {…} 内部）。 今天，我们就来深入研究一下函数作用域和块作用域。 函数中的作用域">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180407/function_scope.png?imageView2/1/w/1000/h/400">
+<meta property="og:updated_time" content="2018-04-06T18:36:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS学习系列 03 - 函数作用域和块作用域">
+<meta name="twitter:description" content="在 ES5 及之前版本，JavaScript 只拥有函数作用域，没有块作用域（with 和 try…catch 除外）。在 ES6 中，JS 引入了块作用域，{ } 内是单独的一个作用域。采用 let 或者 const 声明的变量会挟持所在块的作用域，也就是说，这声明关键字会将变量绑定到所在的任意作用域中（通常是 {…} 内部）。 今天，我们就来深入研究一下函数作用域和块作用域。 函数中的作用域">
+<meta name="twitter:image" content="http://image.liuxuan.site/blog/20180407/function_scope.png?imageView2/1/w/1000/h/400">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//blog.liuxuan.site/2017/04/10/javascript_03__function_scope/"/>
+
+
+
+
+
+
+
+  <title>JS学习系列 03 - 函数作用域和块作用域 | liuxuan的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c8f840e91320da3bc5c5748fa3d6c08";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/assets/img/forkme_left_darkblue.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuxuan的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">苍山如海, 残阳如血</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/04/10/javascript_03__function_scope/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS学习系列 03 - 函数作用域和块作用域</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T10:36:00+08:00">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/04/10/javascript_03__function_scope/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/04/10/javascript_03__function_scope/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/04/10/javascript_03__function_scope/" class="leancloud_visitors" data-flag-title="JS学习系列 03 - 函数作用域和块作用域">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,556字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://image.liuxuan.site/blog/20180407/function_scope.png?imageView2/1/w/1000/h/400" alt="function-scope"></p>
+<p>在 ES5 及之前版本，JavaScript 只拥有函数作用域，没有块作用域（with 和 try…catch 除外）。在 ES6 中，JS 引入了块作用域，{ } 内是单独的一个作用域。采用 let 或者 const 声明的变量会挟持所在块的作用域，也就是说，这声明关键字会将变量绑定到所在的任意作用域中（通常是 {…} 内部）。</p>
+<p>今天，我们就来深入研究一下<strong>函数作用域</strong>和<strong>块作用域</strong>。</p>
+<h3 id="函数中的作用域"><a href="#函数中的作用域" class="headerlink" title="函数中的作用域"></a>函数中的作用域</h3><p>函数作用域的含义是指，属于这个函数的任何声明（变量或函数）都可以在这个函数的范围内使用及复用（包括这个函数嵌套内的作用域）。</p>
+<p>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// something else</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// something else   </span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> c = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();      <span class="comment">// 报错，ReferenceError: bar is not defined</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b, c);        <span class="comment">// 报错，原因同上</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>在这段代码中，函数 foo 的作用域包含了标识符a、b、c 和 bar ，函数 bar 的作用域中又包含别的标识符。</p>
+<p>由于标识符 a、b、c 和 bar都属于函数 foo 的作用域，所以在全局作用域中访问会报错，因为它们都没有定义，但是在函数 foo 内部，这些标识符都是可以访问的，这就是函数作用域。</p>
+<h4 id="为什么要有这些作用域"><a href="#为什么要有这些作用域" class="headerlink" title="为什么要有这些作用域"></a>为什么要有这些作用域</h4><p>当我们用作用域把代码包起来的时候，其实就是对它们进行了“隐藏”，让我们对其有控制权，想让谁访问就可以让谁访问，想禁止访问也很容易。</p>
+<p>想像一下，如果所有的变量和函数都在全局作用域中，当然我们可以在内部的嵌套作用域中访问它们，但是因为暴露了太多的变量或函数，它们可能被有意或者无意的篡改，以非预期的方式使用，这就导致我们的程序会出现各种各样的问题，严重会导致数据泄露，造成无法挽回的后果。</p>
+<p>例如：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">   a: <span class="number">2</span>,</span><br><span class="line">   getA: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.a;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj.a = <span class="number">4</span>;</span><br><span class="line">obj.getA();      <span class="comment">// 4</span></span><br></pre></td></tr></table></figure></p>
+<p>这个例子中，我们可以任意修改对象 obj 内部的值，在某种情况下这并不是我们所期望的，采用函数作用域就可以解决这个问题，私有化变量 a 。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = (<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">     getA: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">     &#125;,</span><br><span class="line">     setA: <span class="function"><span class="keyword">function</span> <span class="params">(val)</span> </span>&#123;</span><br><span class="line">        a = val;</span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line">obj.a = <span class="number">4</span>;</span><br><span class="line">obj.getA();      <span class="comment">// 2</span></span><br><span class="line">obj.setA(<span class="number">8</span>);</span><br><span class="line">obj.getA();      <span class="comment">// 8</span></span><br></pre></td></tr></table></figure></p>
+<p>这里通过立即执行函数（IIFE）返回一个对象，只能通过对象内的方法对变量 a 进行操作，其实这里有<strong>闭包</strong>的存在，这个我们在以后会深入讨论。</p>
+<p>“隐藏”作用域中的变量和函数所带来的另一个好处，是可以避免同名标识符之间的冲突，冲突会导致变量的值被意外覆盖。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">      i = <span class="number">3</span>;        <span class="comment">// 修改了 for 循环所属作用域中的 i</span></span><br><span class="line">      <span class="built_in">console</span>.log(a + i);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">      bar(i * <span class="number">2</span>);      <span class="comment">// 这里因为 i 总会被设置为 3 ，导致无限循环</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p>bar(…) 内部的赋值表达式 i = 3 意外的覆盖了声明在 foo(…) 内部 for 循环中的 i ，在这个例子中因为 i 始终被设置为 3 ，永远满足小于 10 这个条件，导致无限循环。</p>
+<p>bar(…) 内部的赋值操作需要声明一个本地变量来使用，采用任何名字都可以，<strong><em>var i = 3;</em></strong> 就可以满足这个要求。另外一种方法是采用一个完全不同的标识符名称，比如 <strong><em>var j = 3;</em></strong> 。但是软件设计在某种情况下可能自然而然的要求使用同样的标识符名称，因此在这种情况下使用作用域来“隐藏”内部声明是唯一的最佳选择。</p>
+<p>总结来说，作用域可以起到两个作用：</p>
+<ul>
+<li><strong>私有化变量或函数</strong></li>
+<li><strong>规避同名冲突</strong></li>
+</ul>
+<h4 id="函数声明和函数表达式"><a href="#函数声明和函数表达式" class="headerlink" title="函数声明和函数表达式"></a>函数声明和函数表达式</h4><p>如果 function 是声明中的第一个词，那么就是一个函数声明，否则就是一个函数表达式。</p>
+<p>函数声明举个例子：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">// something else</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这就是一个函数声明。</p>
+<p>函数表达式分为匿名函数表达式和具名函数表达式。</p>
+<p>对于函数表达式来说，最熟悉的场景可能就是回调参数了，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">"I wait for one second."</span>)</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个叫作匿名函数表达式，因为 function ()… 没有名称标识符。函数表达式可以是匿名的，但是函数声明不可以省略函数名，在 javascript 中这是非法的。</p>
+<p>匿名函数表达式书写简便，但是它也有几个缺点需要注意：</p>
+<ol>
+<li>匿名函数在浏览器栈追踪中不会显示出有意义的函数名，这会加大调试难度。</li>
+<li>如果没有函数名，当函数需要引用自身的时候就只能使用已经不是标准的 arguments.callee 来引用，比如递归。在事件触发后的事件监听器中也有可能需要通过函数名来解绑自身。</li>
+<li>匿名函数对代码的可读性和可理解性有一定的影响。一个有意义的函数名可以让代码不言自明。</li>
+</ol>
+<p>具名函数表达式又叫行内函数表达式，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timerHandler</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">"I wait for one second."</span>)</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这样，在函数内部需要引用自身的时候就可以通过函数名来引用，当然要注意，这个函数名只能在这个函数内部使用，在函数外使用时未定义的。</p>
+<h4 id="立即执行函数表达式（IIFE）"><a href="#立即执行函数表达式（IIFE）" class="headerlink" title="立即执行函数表达式（IIFE）"></a>立即执行函数表达式（IIFE）</h4><p>IIFE 全写是 Immediately Invoked Function Expression，立即执行函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(a);      <span class="comment">// 3</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>由于函数被包含在一对 ( ) 括号内部，因此成为了一个函数表达式，通过在末尾加上另一对 ( ) 括号可以立即执行这个函数，比如 (function () {})() 。第一个 ( ) 将函数变成函数表达式，第二个 ( ) 执行了这个函数。</p>
+<p>也有另外一种立即执行函数的写法，(function () {}()) 也可以立即执行这个函数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(a);      <span class="comment">// 3</span></span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>这两种写法功能是完全一样的，具体看大家使用。</p>
+<p>IIFE 的另一种普遍的进阶用法是把它们当做函数调用并传递参数进去。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">global</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(a);      <span class="comment">// 3</span></span><br><span class="line">   <span class="built_in">console</span>.log(global.a)      <span class="comment">// 2</span></span><br><span class="line">&#125;)(<span class="built_in">window</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>我们将 window 对象的引用传递进去，但将参数命名为 global，因此在代码风格上对全局对象的引用变得比引用一个没有“全局”字样的变量更加清晰。当然可以从外部作用域传递你需要的任何东西，并将变量命名为任何你觉得合适的文字。这对于改进代码风格是非常有帮助的。</p>
+<p>这个模式的另外一个应用场景是解决 undefined 标识符的默认值被错误覆盖的异常（这并不常见）。将一个参数命名为 undefined ，但是并不传入任何值，这样就可以保证在代码块中 undefined 的标识符的值就是 undefined 。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">undefined</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">IIFE</span> (<span class="params">undefined</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> a;</span><br><span class="line">   <span class="keyword">if</span> (a === <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Undefined is safe here."</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure></p>
+<h3 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h3><p>ES5 及以前 JavaScript 中具有块作用域的只有 with 和 try…catch 语句，在 ES6 及以后的版本添加了具有块作用域的变量标识符 let 和 const 。</p>
+<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">   a: <span class="number">2</span>,</span><br><span class="line">   b: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> (obj) &#123;</span><br><span class="line">   <span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br><span class="line">   <span class="built_in">console</span>.log(b);      <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 报错，a is not defined</span></span><br><span class="line"><span class="built_in">console</span>.log(b);      <span class="comment">// 报错，a is not defined</span></span><br></pre></td></tr></table></figure>
+<p>用 with 从对象中创建出的作用域仅在 with 声明中而非外部作用域中有效。</p>
+<h4 id="try…catch"><a href="#try…catch" class="headerlink" title="try…catch"></a>try…catch</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="literal">undefined</span>();      <span class="comment">// 非法操作</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(err);      <span class="comment">// 正常执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(err);      <span class="comment">// 报错，err is not defined</span></span><br></pre></td></tr></table></figure>
+<p>try/catch 中的 catch 分句会创建一个块作用域，其中的变量声明仅在 catch 内部有效。</p>
+<h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>let 关键字可以将变量绑定到任意作用域中（通常是 {…} 内部）。换句话说，let 为其声明的变量隐式的劫持了所在的块作用域。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">   <span class="keyword">let</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line">   <span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br><span class="line">   <span class="built_in">console</span>.log(b);      <span class="comment">// 2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(b);      <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 报错，a is not defined</span></span><br></pre></td></tr></table></figure></p>
+<p>用 let 将变量附加在一个已经存在的块作用域上的行为是隐式的。在开发和修改代码的过程中，如果没有密切关注哪些代码块作用域中有绑定的变量，并且习惯性的移动这些块或者将其包含到其他块中，就会导致代码混乱。</p>
+<p>为块作用域显示的创建块可以部分解决这个问题，使变量的附属关系变得更加清晰。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">let</span> a = <span class="number">2</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(a);      <span class="comment">// 2</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在代码的任意位置都可以使用 {…} 括号来为 let 创建一个用于绑定的块。</p>
+<p>还有一点要注意的是，在使用 var 进行变量声明的时候会存在<strong>变量提升</strong>，提升是指声明会被视为存在于其所出现的作用域的整个范围内。但是使用 let 进行的声明不会存在作用域提升，声明的变量在被运行之前，并不存在。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(b);      <span class="comment">// 报错， b is not defined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在浏览器中运行这段代码时，因为前面报错了，所以不会看到接下来打印的结果，但是理论上就是这样的结果</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 2 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">4</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);      <span class="comment">// 4</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>2.3.1</strong> 垃圾收集<br>另一个块作用域非常有用的原因和闭包及垃圾内存的回收机制有关。<br>举个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">processData</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">   <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bigData = &#123;...&#125;;</span><br><span class="line"></span><br><span class="line">processData(bigData);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'my_button'</span>);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个按钮点击事件的回调函数中并不需要 bigData 这个非常占内存的数据，理论上来说，当 processData 函数处理完之后，这个占有大量空间的数据结构就可以被垃圾回收了。但是，由于这个事件回调函数形成了一个覆盖当前作用域的<strong>闭包</strong>，JavaScript 引擎极有可能依然保存着这个数据结构（取决于具体实现）。</p>
+<p>使用块作用域可以解决这个问题，可以让引擎清楚的知道没有必要继续保存这个 bigData 。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">processData</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">   <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">let</span> bigData = &#123;...&#125;;</span><br><span class="line"></span><br><span class="line">   processData(bigData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'my_button'</span>);</span><br><span class="line"></span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p><strong>2.3.2 let 循环</strong><br>一个 let 可以发挥优势的典型例子就是 for 循环。<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> lists = document.getElementsByTagName('<span class="built_in">li</span>');</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">let</span> i = <span class="number">0</span>, <span class="built_in">length</span> = lists.<span class="built_in">length</span>; i &lt; <span class="built_in">length</span>; i++) &#123;</span><br><span class="line">   console.<span class="built_in">log</span>(i);</span><br><span class="line">   lists[i].onclick = function () &#123;</span><br><span class="line">     console.<span class="built_in">log</span>(i);      // 点击每个 <span class="built_in">li</span> 元素的时候，都是相对应的 i 值，而不像用 <span class="built_in">var</span> 声明 i 的时候，因为没有块作用域，所以在回调函数通过闭包查找 i 的时候找到的都是最后的 i 值</span><br><span class="line">   &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(i);      // 报错，i <span class="built_in">is</span> <span class="keyword">not</span> defined</span><br></pre></td></tr></table></figure></p>
+<p>for 循环头部的 let 不仅将 i 绑定到 fir 循环的块中，事实上它将其重新绑定到了循环的每一个迭代中，确保上一个循环迭代结束时的值重新进行赋值。</p>
+<p>当然，我们在 for 循环中使用 var 时也可以通过立即执行函数形成一个新的闭包来解决这个问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> lists = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = lists.length; i &lt; length; i++) &#123;</span><br><span class="line">   lists[i].onclick = (<span class="function"><span class="keyword">function</span> (<span class="params">j</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(j);</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;(i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> lists = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = lists.length; i &lt; length; i++) &#123;</span><br><span class="line">   (<span class="function"><span class="keyword">function</span> (<span class="params">i</span>) </span>&#123;</span><br><span class="line">      lists[i].onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="built_in">console</span>.log(i);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;(i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实原理无非就是，为每个迭代创建新的闭包，立即执行函数执行完后本来应该销毁变量，释放内存，但是因为这里有回调函数的存在，所以形成了闭包，然后通过形参进行同名变量覆盖，所以找到的 i 值就是每个迭代新闭包中的形参 i 。</p>
+<h4 id="const"><a href="#const" class="headerlink" title="const"></a>const</h4><p>除了 let 以外，ES6 还引入了 const ，同样可以用来创建作用域变量，但其值是固定的（常亮）。之后任何试图修改值的操作都会引起错误。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (foo) &#123;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">const</span> b = <span class="number">3</span>;      <span class="comment">// 包含在 if 中的块作用域常亮</span></span><br><span class="line"></span><br><span class="line">   a = <span class="number">3</span>;      <span class="comment">// 正常</span></span><br><span class="line">   b = <span class="number">4</span>;      <span class="comment">// 报错，TypeError: Assignment to constant variable</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a);      <span class="comment">// 3</span></span><br><span class="line"><span class="built_in">console</span>.log(b);      <span class="comment">// 报错， b is not defined</span></span><br></pre></td></tr></table></figure></p>
+<p>和 let 一样，const 声明的变量也不存在“<strong>变量提升</strong>”。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>函数是 JavaScript 中最常见的作用域单元。块作用域指的是变量和函数不仅可以属于所处的函数作用域，也可以属于某个代码块。</p>
+<p>本质上，声明在一个函数内部的变量或函数会在所处的作用域中“隐藏”起来，这是有意为之的良好软件的设计原则。</p>
+<p>有些人认为块作用域不应该完全作为函数作用域的替代方案。两种功能应该同时存在，开发者可以并且也应该根据需要选择使用哪种作用域，创造可读、可维护的优良代码。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/img/wechatpay.jpg" alt="liuxuan 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/img/alipay.jpg" alt="liuxuan 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/作用域/" rel="tag"># 作用域</a>
+          
+        </div>
+      
+
+      <div>
+            
+              
+            
+      </div>
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/05/javascript_02_static_scope/" rel="next" title="JS学习系列 02 - 词法作用域">
+                <i class="fa fa-chevron-left"></i> JS学习系列 02 - 词法作用域
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/10/javascript_04__variable_lifting/" rel="prev" title="JS学习系列 04 - 提升">
+                JS学习系列 04 - 提升 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+              src="/assets/img/avatar.jpg"
+              alt="liuxuan" />
+            
+              <p class="site-author-name" itemprop="name">liuxuan</p>
+              <p class="site-description motion-element" itemprop="description">科大讯飞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数中的作用域"><span class="nav-number">1.</span> <span class="nav-text">函数中的作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要有这些作用域"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要有这些作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数声明和函数表达式"><span class="nav-number">1.2.</span> <span class="nav-text">函数声明和函数表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#立即执行函数表达式（IIFE）"><span class="nav-number">1.3.</span> <span class="nav-text">立即执行函数表达式（IIFE）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块作用域"><span class="nav-number">2.</span> <span class="nav-text">块作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#with"><span class="nav-number">2.1.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#try…catch"><span class="nav-number">2.2.</span> <span class="nav-text">try…catch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let"><span class="nav-number">2.3.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#const"><span class="nav-number">2.4.</span> <span class="nav-text">const</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuxuan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">访问总数&#58;</span>
+    
+    <span title="访问总数">16.7k</span>
+  
+</div>
+
+
+  <!--
+  <div class="powered-by">
+    <i class="fa fa-user"></i><span id="busuanzi_container_site_uv">
+      访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+      访问总数：<span id="busuanzi_value_site_pv"></span>次
+    </span>
+  </div>-->
+  <!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>-->
+
+
+
+  <!--<span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>-->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytyfpVPi';
+      var conf = '34d2fc826ea4d79b425df9b40e745c76';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("n3wjA02Ad7yQX9pSw1nsuKkC-gzGzoHsz", "E5r737ij45xjWO6hOKs77XMN");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- my add -->
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- -->
+</body>
+</html>
