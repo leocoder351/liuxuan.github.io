@@ -99,7 +99,7 @@
 <meta property="og:description" content="到目前为止，大家应该很熟悉作用域的概念了，以及根据声明的位置和方式将变量分配给作用域的相关原理了。函数作用域和块作用域的行为是一样的，可以总结为：任何声明在某个作用域内的变量，都将属于这个作用域。 但是作用域同其中的变量声明出现的位置有某种微妙的关系，而这个细节就是我们这节要探讨的内容。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://image.liuxuan.site/blog/20180407/variable_lifting.jpg?imageView2/1/w/1000/h/400">
-<meta property="og:updated_time" content="2018-04-06T18:36:04.000Z">
+<meta property="og:updated_time" content="2018-04-06T19:05:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS学习系列 04 - 提升">
 <meta name="twitter:description" content="到目前为止，大家应该很熟悉作用域的概念了，以及根据声明的位置和方式将变量分配给作用域的相关原理了。函数作用域和块作用域的行为是一样的，可以总结为：任何声明在某个作用域内的变量，都将属于这个作用域。 但是作用域同其中的变量声明出现的位置有某种微妙的关系，而这个细节就是我们这节要探讨的内容。">
@@ -570,6 +570,35 @@
       <div>
             
               
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2017/05/10/javascript_04__variable_lifting/">JS学习系列 04 - 提升</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 liuxuan 的个人博客">liuxuan</a></p>
+  <p><span>发布时间:</span>2017年05月10日 - 10:05</p>
+  <p><span>最后更新:</span>2018年04月07日 - 03:04</p>
+  <p><span>原始链接:</span><a href="/2017/05/10/javascript_04__variable_lifting/" title="JS学习系列 04 - 提升">//blog.liuxuan.site/2017/05/10/javascript_04__variable_lifting/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="//blog.liuxuan.site/2017/05/10/javascript_04__variable_lifting/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
             
       </div>
 
