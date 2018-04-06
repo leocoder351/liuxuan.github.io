@@ -91,14 +91,14 @@
 
     
   <url>
-    <loc>//liuxuan.site/2016/04/01/changbaishan/</loc>
+    <loc>//liuxuan.site/2013/08/11/brief-oauth/</loc>
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     <data>
         <display>
-        <title>长白山 | 来去匆匆，惊鸿一瞥</title>
-        <pubTime>2016-04-01T02:36:00.000Z</pubTime>
+        <title>谈谈OAuth1,OAuth2异同</title>
+        <pubTime>2013-08-11T02:55:00.000Z</pubTime>
         
-        <tag>旅行</tag>
+        <tag>web</tag>
          
          
            
@@ -108,14 +108,14 @@
 
     
   <url>
-    <loc>//liuxuan.site/2013/08/11/brief-oauth/</loc>
+    <loc>//liuxuan.site/2016/04/01/changbaishan/</loc>
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     <data>
         <display>
-        <title>谈谈OAuth1,OAuth2异同</title>
-        <pubTime>2013-08-11T02:55:00.000Z</pubTime>
+        <title>长白山 | 来去匆匆，惊鸿一瞥</title>
+        <pubTime>2016-04-01T02:36:00.000Z</pubTime>
         
-        <tag>web</tag>
+        <tag>旅行</tag>
          
          
            
