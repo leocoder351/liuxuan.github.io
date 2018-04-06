@@ -4,7 +4,7 @@
 
     
   <url>
-    <loc>//litten.me/2018/04/06/article-title/</loc>
+    <loc>//liuxuan.site/2018/04/06/article-title/</loc>
     <lastmod>2018-04-06T10:06:51.000Z</lastmod>
     <data>
         <display>
@@ -19,7 +19,7 @@
 
     
   <url>
-    <loc>//litten.me/2018/04/06/hello-world/</loc>
+    <loc>//liuxuan.site/2018/04/06/hello-world/</loc>
     <lastmod>2018-04-06T10:00:50.000Z</lastmod>
     <data>
         <display>
