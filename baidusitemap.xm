@@ -4,6 +4,34 @@
 
     
   <url>
+    <loc>//blog.liuxuan.site/2018/04/10/tail_call/</loc>
+    <lastmod>2018-04-10T13:41:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>尾调用和尾递归</title>
+        <pubTime>2018-04-10T13:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>尾调用</tag>
+         
+        <tag>尾递归</tag>
+         
+        <tag>函数式</tag>
+         
+        <tag>柯里化</tag>
+         
+         
+           
+             
+              <breadCrumb title="Javascript" url="//blog.liuxuan.site/categories/Javascript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>//blog.liuxuan.site/2018/04/03/front_end_test_karma_jasmine/</loc>
     <lastmod>2018-04-06T19:06:00.000Z</lastmod>
     <data>

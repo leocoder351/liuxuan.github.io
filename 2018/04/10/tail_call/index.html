@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+
+  <meta name="keywords" content="Javascript,尾调用,尾递归,函数式,柯里化," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="liuxuan的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="尾调用1. 定义尾调用是函数式编程中一个很重要的概念，当一个函数执行时的最后一个步骤是返回另一个函数的调用，这就叫做尾调用。 注意这里函数的调用方式是无所谓的，以下方式均可：1234函数调用:     func(···)方法调用:     obj.method(···)call调用:     func.call(···)apply调用:    func.apply(···) 并且只有下列表达式会包">
+<meta name="keywords" content="Javascript,尾调用,尾递归,函数式,柯里化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="尾调用和尾递归">
+<meta property="og:url" content="//blog.liuxuan.site/2018/04/10/tail_call/index.html">
+<meta property="og:site_name" content="liuxuan的博客">
+<meta property="og:description" content="尾调用1. 定义尾调用是函数式编程中一个很重要的概念，当一个函数执行时的最后一个步骤是返回另一个函数的调用，这就叫做尾调用。 注意这里函数的调用方式是无所谓的，以下方式均可：1234函数调用:     func(···)方法调用:     obj.method(···)call调用:     func.call(···)apply调用:    func.apply(···) 并且只有下列表达式会包">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180409/call_stack.png">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180409/call_stack_tail.png">
+<meta property="og:updated_time" content="2018-04-10T13:41:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="尾调用和尾递归">
+<meta name="twitter:description" content="尾调用1. 定义尾调用是函数式编程中一个很重要的概念，当一个函数执行时的最后一个步骤是返回另一个函数的调用，这就叫做尾调用。 注意这里函数的调用方式是无所谓的，以下方式均可：1234函数调用:     func(···)方法调用:     obj.method(···)call调用:     func.call(···)apply调用:    func.apply(···) 并且只有下列表达式会包">
+<meta name="twitter:image" content="http://image.liuxuan.site/blog/20180409/call_stack.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//blog.liuxuan.site/2018/04/10/tail_call/"/>
+
+
+
+
+
+
+
+  <title>尾调用和尾递归 | liuxuan的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c8f840e91320da3bc5c5748fa3d6c08";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/assets/img/forkme_left_darkblue.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuxuan的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">苍山如海, 残阳如血</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/04/10/tail_call/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">尾调用和尾递归</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T21:36:00+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/10/tail_call/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/04/10/tail_call/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2018/04/10/tail_call/" class="leancloud_visitors" data-flag-title="尾调用和尾递归">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,504字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="尾调用"><a href="#尾调用" class="headerlink" title="尾调用"></a>尾调用</h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h4><p>尾调用是函数式编程中一个很重要的概念，当一个函数执行时的最后一个步骤是返回另一个函数的调用，这就叫做尾调用。</p>
+<p>注意这里函数的调用方式是无所谓的，以下方式均可：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">函数调用:     <span class="function"><span class="keyword">func</span><span class="params">(···)</span></span></span><br><span class="line">方法调用:     obj.method(···)</span><br><span class="line"><span class="built_in">call</span>调用:     <span class="function"><span class="keyword">func</span>.<span class="title">call</span><span class="params">(···)</span></span></span><br><span class="line">apply调用:    <span class="function"><span class="keyword">func</span>.<span class="title">apply</span><span class="params">(···)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>并且只有下列表达式会包含尾调用：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">条件操作符:      ? :</span></span><br><span class="line"><span class="section">逻辑或:         ||</span></span><br><span class="line"><span class="section">逻辑与:         &amp;&amp;</span></span><br><span class="line"><span class="section">逗号:           ,</span></span><br></pre></td></tr></table></figure></p>
+<p>依次举例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">x</span> =&gt;</span> x ? f() : g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// f() 和 g() 都在尾部。</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> f() || g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()有可能是尾调用，f()不是</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fResult = f(); <span class="comment">// not a tail call</span></span><br><span class="line">    <span class="keyword">if</span> (fResult) &#123;</span><br><span class="line">        <span class="keyword">return</span> fResult;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> g(); <span class="comment">// tail call</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只有当f()的结果为falsey的时候，g()才是尾调用</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> f() &amp;&amp; g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()有可能是尾调用，f()不是</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fResult = f(); <span class="comment">// not a tail call</span></span><br><span class="line">    <span class="keyword">if</span> (fResult) &#123;</span><br><span class="line">        <span class="keyword">return</span> g(); <span class="comment">// tail call</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fResult;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只有当f()的结果为truthy的时候，g()才是尾调用</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> (f() , g());</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()是尾调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    f();</span><br><span class="line">    <span class="keyword">return</span> g();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-尾调用优化"><a href="#2-尾调用优化" class="headerlink" title="2. 尾调用优化"></a>2. 尾调用优化</h4><p>函数在调用的时候会在调用栈（call stack）中存有记录，每一条记录叫做一个调用帧（call frame），每调用一个函数，就向栈中push一条记录，函数执行结束后依次向外弹出，直到清空调用栈，参考下图：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">()</span> &#123; <span class="title">console</span>.<span class="title">log</span><span class="params">(111)</span>; &#125;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> <span class="params">()</span> &#123; <span class="title">foo</span><span class="params">()</span>; &#125;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span> <span class="params">()</span> &#123; <span class="title">bar</span><span class="params">()</span>; &#125;</span></span><br><span class="line"></span><br><span class="line">baz();</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://image.liuxuan.site/blog/20180409/call_stack.png" alt="call stack"></p>
+<p>造成这种结果是因为每个函数在调用另一个函数的时候，并没有 <strong>return</strong> 该调用，所以JS引擎会认为你还没有执行完，会保留你的调用帧。</p>
+<p><strong>baz()</strong> 里面调用了 <strong>bar()</strong> 函数，并没有 <strong>return</strong> 该调用，所以在调用栈中保持自己的调用帧，同时 <strong>bar()</strong> 函数的调用帧在调用栈中生成，同理，<strong>bar()</strong> 函数又调用了 <strong>foo()</strong> 函数，最后执行到 <strong>foo()</strong> 函数的时候，没有再调用其他函数，这里没有显示声明 <strong>return</strong>，所以这里默认 <strong>return undefined</strong>。</p>
+<p><strong>foo()</strong> 执行完了，销毁调用栈中自己的记录，依次销毁 <strong>bar()</strong> 和 <strong>baz()</strong> 的调用帧，最后完成整个流程。</p>
+<p>如果对上面的例子做如下修改：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title">foo</span> () &#123; console.log(111); &#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title">bar</span> () &#123; <span class="keyword">return</span> <span class="type">foo()</span>; &#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title">baz</span> () &#123; <span class="keyword">return</span> <span class="type">bar()</span>; &#125;</span><br><span class="line"></span><br><span class="line">baz();</span><br></pre></td></tr></table></figure></p>
+<p>这里要注意：<strong>尾调用优化只在严格模式下有效。</strong></p>
+<p>在非严格模式下，大多数引擎会包含下面两个属性，以便开发者检查调用栈：</p>
+<ul>
+<li>func.arguments: 表示对 func最近一次调用所包含的参数</li>
+<li>func.caller: 引用对 func最近一次调用的那个函数</li>
+</ul>
+<p>在尾调用优化中，这些属性不再有用，因为相关的信息可能以及被移除了。因此，严格模式(strict mode)禁止这些属性，并且尾调用优化只在严格模式下有效。</p>
+<p>如果尾调用优化生效，流程图就会变成这样：</p>
+<p><img src="http://image.liuxuan.site/blog/20180409/call_stack_tail.png" alt="call stack"></p>
+<p>我们可以很清楚的看到，尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用记录，只要直接用内层函数的调用记录取代外层函数的调用记录就可以了，调用栈中始终只保持了一条调用帧。</p>
+<p>这就叫做<strong>尾调用优化</strong>，如果所有的函数都是尾调用的话，那么在调用栈中的调用帧始终只有一条，这样会节省很大一部分的内存，这也是<strong>尾调用优化的意义</strong>。</p>
+<h3 id="尾递归"><a href="#尾递归" class="headerlink" title="尾递归"></a>尾递归</h3><h4 id="1-定义-1"><a href="#1-定义-1" class="headerlink" title="1. 定义"></a>1. 定义</h4><p>先来看一下递归，当一个函数调用自身，就叫做递归。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    foo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这个操作就叫做递归，但是注意了，这里没有结束条件，是死递归，所以会报栈溢出错误的，写代码时千万注意给递归添加结束条件。</p>
+<p>那么什么是尾递归？<br>前面我们知道了尾调用的概念，当一个函数尾调用自身，就叫做<strong>尾递归</strong>。<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title">foo</span> () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">foo()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-作用"><a href="#2-作用" class="headerlink" title="2. 作用"></a>2. 作用</h4><p>那么尾递归相比递归而言，有哪些不同呢？<br>我们通过下面这个求<strong>阶乘</strong>的例子来看一下：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">return</span> <span class="built_in">num</span> * <span class="built_in">factorial</span>(<span class="built_in">num</span> - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);            // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);           // <span class="number">3628800</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">500000</span>);       // Uncaught RangeError: Maximum call stack size exceeded</span><br></pre></td></tr></table></figure></p>
+<p>上面是使用递归来计算阶乘的例子，操作系统为JS引擎调用栈分配的内存是有大小限制的，如果计算的数字足够大，超出了内存最大范围，就会出现栈溢出错误。</p>
+<p>这里500000并不是临界值，只是我用了一个足够造成栈溢出的数。</p>
+<p>如果用尾递归来计算阶乘呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span> (<span class="params">num, total</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> factorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>, <span class="number">1</span>);                <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>, <span class="number">1</span>);               <span class="comment">// 3628800</span></span><br><span class="line">factorial(<span class="number">500000</span>, <span class="number">1</span>);           <span class="comment">// 分情况</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意，虽然说这里启用了严格模式，但是经测试，在Chrome和Firefox下，还是会报栈溢出错误，并没有进行尾调用优化</span></span><br><span class="line"><span class="comment">// Safari浏览器进行了尾调用优化，factorial(500000, 1)结果为Infinity，因为结果超出了JS可表示的数字范围</span></span><br><span class="line"><span class="comment">// 如果在node v6版本下执行，需要加--harmony_tailcalls参数，node --harmony_tailcalls test.js</span></span><br><span class="line"><span class="comment">// node最新版本已经移除了--harmony_tailcalls功能</span></span><br></pre></td></tr></table></figure></p>
+<p>通过尾递归，我们把复杂度从O(n)降低到了O(1)，如果数据足够大的话，会节省很多的计算时间。<br>由此可见，<strong>尾调用优</strong>化对递归操作意义重大，所以一些函数式编程语言将其写入了语言规格。</p>
+<h3 id="避免改写递归函数"><a href="#避免改写递归函数" class="headerlink" title="避免改写递归函数"></a>避免改写递归函数</h3><p>尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。<br>要做到这一点，需要把函数内部所有用到的中间变量改写为函数的参数，就像上面的factorial()函数改写一样。</p>
+<p>这样做的缺点就是语义不明显，要计算阶乘的函数，为什么还要另外传入一个参数叫total？<br>解决这个问题的办法有两个：</p>
+<h4 id="1-ES6参数默认值"><a href="#1-ES6参数默认值" class="headerlink" title="1. ES6参数默认值"></a>1. ES6参数默认值</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span> (<span class="params">num, total = <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> factorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>);                <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>);               <span class="comment">// 3628800</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-用一个符合语义的函数去调用改写后的尾递归函数"><a href="#2-用一个符合语义的函数去调用改写后的尾递归函数" class="headerlink" title="2. 用一个符合语义的函数去调用改写后的尾递归函数"></a>2. 用一个符合语义的函数去调用改写后的尾递归函数</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function tailFactorial (<span class="built_in">num</span>, total) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> total;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span> - <span class="number">1</span>, <span class="built_in">num</span> * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);                // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);               // <span class="number">3628800</span></span><br></pre></td></tr></table></figure>
+<p>上面这种写法其实有点类似于做了一个函数科里化，但不完全符合科里化的概念。<br><strong>函数科里化</strong>是指把接受多个参数的函数转换为接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下参数且返回结果的新函数。</p>
+<p>概念看着很绕口，我们来个例子感受一下：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通加法函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(x, y, z)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);        <span class="comment">// 6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 改写为科里化加法函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(z)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x + y + z;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>);        <span class="comment">// 6</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，科里化函数通过闭包找到父作用域里的变量，最后依次相加输出结果。<br>通过这个例子，可能看不出为什么要用科里化，有什么好处，这个我们以后再谈，这里先引出一个概念。</p>
+<p>是把接受多个参数的函数变换成接受一个单一参数(最初函数的第一个参数)的函数，并且返回接受余下的参数且返回结果的新函数的技术。</p>
+<p>如果用科里化改写求阶乘的例子：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 科里化函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> <span class="params">(fn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _fnArgLength = fn.length;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">wrap</span> <span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> _args = args;</span><br><span class="line">        <span class="keyword">var</span> _argLength = _args.length;</span><br><span class="line">        <span class="comment">// 如果传的是所有参数，直接返回fn调用</span></span><br><span class="line">        <span class="keyword">if</span> (_fnArgLength === _argLength) &#123;</span><br><span class="line">            <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, args);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">act</span> <span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">            _args = _args.concat(args);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (_args.length === _fnArgLength) &#123;</span><br><span class="line">                <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, _args);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> act;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> act;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尾递归函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tailFactorial</span> <span class="params">(num, total)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> tailFactorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 改写</span></span><br><span class="line"><span class="keyword">var</span> factorial = curry(tailFactorial);</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>)(<span class="number">1</span>);        <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>)(<span class="number">1</span>);       <span class="comment">// 3628800</span></span><br></pre></td></tr></table></figure></p>
+<p>这是符合科里化概念的写法，在阮一峰老师的文章中是这样写的：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">currying</span><span class="params">(fn, n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.call(<span class="keyword">this</span>, m, n);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tailFactorial</span><span class="params">(n, total)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">  <span class="keyword">return</span> tailFactorial(n - <span class="number">1</span>, n * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> factorial = currying(tailFactorial, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>) <span class="comment">// 120</span></span><br></pre></td></tr></table></figure></p>
+<p>我个人认为，这种写法其实不是科里化，因为并没有将多参数的tailFacrotial改写为接受单参数的形式，只是换了一种写法，和下面这样写意义是一样的：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function tailFactorial (<span class="built_in">num</span>, total) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> total;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span> - <span class="number">1</span>, <span class="built_in">num</span> * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);                // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);               // <span class="number">3628800</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>这篇文章我们主要讨论了尾调用优化和科里化。<br>要注意的是，经过测试，Chrome和Firefox并没有对尾调用进行优化，Safari对尾调用进行了优化。<br>Node高版本也已经去除了通过–harmony_tailcalls参数启用尾调用优化。</p>
+<p>有任何问题，欢迎大家留言讨论~~</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://www.ruanyifeng.com/blog/2015/04/tail-call.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/04/tail-call.html</a><br><a href="https://juejin.im/post/5a4d898a518825698e7277d1" target="_blank" rel="noopener">https://juejin.im/post/5a4d898a518825698e7277d1</a><br><a href="https://github.com/lamdu/lamdu/issues/90" target="_blank" rel="noopener">https://github.com/lamdu/lamdu/issues/90</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/img/wechatpay.jpg" alt="liuxuan 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/img/alipay.jpg" alt="liuxuan 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/尾调用/" rel="tag"># 尾调用</a>
+          
+            <a href="/tags/尾递归/" rel="tag"># 尾递归</a>
+          
+            <a href="/tags/函数式/" rel="tag"># 函数式</a>
+          
+            <a href="/tags/柯里化/" rel="tag"># 柯里化</a>
+          
+        </div>
+      
+
+      <div>
+            
+              
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/04/10/tail_call/">尾调用和尾递归</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 liuxuan 的个人博客">liuxuan</a></p>
+  <p><span>发布时间:</span>2018年04月10日 - 21:04</p>
+  <p><span>最后更新:</span>2018年04月10日 - 21:04</p>
+  <p><span>原始链接:</span><a href="/2018/04/10/tail_call/" title="尾调用和尾递归">//blog.liuxuan.site/2018/04/10/tail_call/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="//blog.liuxuan.site/2018/04/10/tail_call/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+            
+      </div>
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/03/front_end_test_karma_jasmine/" rel="next" title="搭建 karma + jasmine 测试环境">
+                <i class="fa fa-chevron-left"></i> 搭建 karma + jasmine 测试环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+              src="/assets/img/avatar.jpg"
+              alt="liuxuan" />
+            
+              <p class="site-author-name" itemprop="name">liuxuan</p>
+              <p class="site-description motion-element" itemprop="description">科大讯飞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#尾调用"><span class="nav-number">1.</span> <span class="nav-text">尾调用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-定义"><span class="nav-number">1.1.</span> <span class="nav-text">1. 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-尾调用优化"><span class="nav-number">1.2.</span> <span class="nav-text">2. 尾调用优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尾递归"><span class="nav-number">2.</span> <span class="nav-text">尾递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-定义-1"><span class="nav-number">2.1.</span> <span class="nav-text">1. 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-作用"><span class="nav-number">2.2.</span> <span class="nav-text">2. 作用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免改写递归函数"><span class="nav-number">3.</span> <span class="nav-text">避免改写递归函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-ES6参数默认值"><span class="nav-number">3.1.</span> <span class="nav-text">1. ES6参数默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-用一个符合语义的函数去调用改写后的尾递归函数"><span class="nav-number">3.2.</span> <span class="nav-text">2. 用一个符合语义的函数去调用改写后的尾递归函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束"><span class="nav-number">4.</span> <span class="nav-text">结束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuxuan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">访问总数&#58;</span>
+    
+    <span title="访问总数">19.2k</span>
+  
+</div>
+
+
+  <!--
+  <div class="powered-by">
+    <i class="fa fa-user"></i><span id="busuanzi_container_site_uv">
+      访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+      访问总数：<span id="busuanzi_value_site_pv"></span>次
+    </span>
+  </div>-->
+  <!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>-->
+
+
+
+  <!--<span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>-->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytyfpVPi';
+      var conf = '34d2fc826ea4d79b425df9b40e745c76';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("n3wjA02Ad7yQX9pSw1nsuKkC-gzGzoHsz", "E5r737ij45xjWO6hOKs77XMN");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- my add -->
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- -->
+</body>
+</html>

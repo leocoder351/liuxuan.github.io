@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//blog.liuxuan.site/2018/04/10/tail_call/</loc>
+    
+    <lastmod>2018-04-10T13:41:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//blog.liuxuan.site/2018/04/03/front_end_test_karma_jasmine/</loc>
     
     <lastmod>2018-04-06T19:06:00.000Z</lastmod>
@@ -93,7 +100,7 @@
   </url>
   
   <url>
-    <loc>//blog.liuxuan.site/assets/demo/border1px.html</loc>
+    <loc>//blog.liuxuan.site/assets/demo/jiugongge_demo2.html</loc>
     
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     
@@ -101,6 +108,13 @@
   
   <url>
     <loc>//blog.liuxuan.site/photos/index.html</loc>
+    
+    <lastmod>2017-07-28T03:51:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//blog.liuxuan.site/assets/demo/border1px.html</loc>
     
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     
@@ -115,13 +129,6 @@
   
   <url>
     <loc>//blog.liuxuan.site/assets/demo/jiugongge_demo.html</loc>
-    
-    <lastmod>2017-07-28T03:51:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//blog.liuxuan.site/assets/demo/jiugongge_demo2.html</loc>
     
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     
@@ -156,14 +163,14 @@
   </url>
   
   <url>
-    <loc>//blog.liuxuan.site/assets/demo/my_news_reader/index.html</loc>
+    <loc>//blog.liuxuan.site/assets/demo/pre_css3_demo/demo.html</loc>
     
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>//blog.liuxuan.site/assets/demo/pre_css3_demo/demo.html</loc>
+    <loc>//blog.liuxuan.site/assets/demo/my_news_reader/index.html</loc>
     
     <lastmod>2017-07-28T03:51:08.000Z</lastmod>
     

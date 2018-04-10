@@ -321,6 +321,250 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/04/10/tail_call/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/10/tail_call/" itemprop="url">尾调用和尾递归</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T21:36:00+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/10/tail_call/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2018/04/10/tail_call/" class="cy_cmt_count" data-xid="2018/04/10/tail_call/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2018/04/10/tail_call/" class="leancloud_visitors" data-flag-title="尾调用和尾递归">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,504字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="尾调用"><a href="#尾调用" class="headerlink" title="尾调用"></a>尾调用</h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h4><p>尾调用是函数式编程中一个很重要的概念，当一个函数执行时的最后一个步骤是返回另一个函数的调用，这就叫做尾调用。</p>
+<p>注意这里函数的调用方式是无所谓的，以下方式均可：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">函数调用:     <span class="function"><span class="keyword">func</span><span class="params">(···)</span></span></span><br><span class="line">方法调用:     obj.method(···)</span><br><span class="line"><span class="built_in">call</span>调用:     <span class="function"><span class="keyword">func</span>.<span class="title">call</span><span class="params">(···)</span></span></span><br><span class="line">apply调用:    <span class="function"><span class="keyword">func</span>.<span class="title">apply</span><span class="params">(···)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>并且只有下列表达式会包含尾调用：<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">条件操作符:      ? :</span></span><br><span class="line"><span class="section">逻辑或:         ||</span></span><br><span class="line"><span class="section">逻辑与:         &amp;&amp;</span></span><br><span class="line"><span class="section">逗号:           ,</span></span><br></pre></td></tr></table></figure></p>
+<p>依次举例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">x</span> =&gt;</span> x ? f() : g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// f() 和 g() 都在尾部。</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> f() || g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()有可能是尾调用，f()不是</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fResult = f(); <span class="comment">// not a tail call</span></span><br><span class="line">    <span class="keyword">if</span> (fResult) &#123;</span><br><span class="line">        <span class="keyword">return</span> fResult;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> g(); <span class="comment">// tail call</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只有当f()的结果为falsey的时候，g()才是尾调用</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> f() &amp;&amp; g();</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()有可能是尾调用，f()不是</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fResult = f(); <span class="comment">// not a tail call</span></span><br><span class="line">    <span class="keyword">if</span> (fResult) &#123;</span><br><span class="line">        <span class="keyword">return</span> g(); <span class="comment">// tail call</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fResult;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只有当f()的结果为truthy的时候，g()才是尾调用</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> (f() , g());</span><br><span class="line"></span><br><span class="line"><span class="comment">// g()是尾调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为上述写法和下面的写法等效：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    f();</span><br><span class="line">    <span class="keyword">return</span> g();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-尾调用优化"><a href="#2-尾调用优化" class="headerlink" title="2. 尾调用优化"></a>2. 尾调用优化</h4><p>函数在调用的时候会在调用栈（call stack）中存有记录，每一条记录叫做一个调用帧（call frame），每调用一个函数，就向栈中push一条记录，函数执行结束后依次向外弹出，直到清空调用栈，参考下图：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">()</span> &#123; <span class="title">console</span>.<span class="title">log</span><span class="params">(111)</span>; &#125;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> <span class="params">()</span> &#123; <span class="title">foo</span><span class="params">()</span>; &#125;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span> <span class="params">()</span> &#123; <span class="title">bar</span><span class="params">()</span>; &#125;</span></span><br><span class="line"></span><br><span class="line">baz();</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://image.liuxuan.site/blog/20180409/call_stack.png" alt="call stack"></p>
+<p>造成这种结果是因为每个函数在调用另一个函数的时候，并没有 <strong>return</strong> 该调用，所以JS引擎会认为你还没有执行完，会保留你的调用帧。</p>
+<p><strong>baz()</strong> 里面调用了 <strong>bar()</strong> 函数，并没有 <strong>return</strong> 该调用，所以在调用栈中保持自己的调用帧，同时 <strong>bar()</strong> 函数的调用帧在调用栈中生成，同理，<strong>bar()</strong> 函数又调用了 <strong>foo()</strong> 函数，最后执行到 <strong>foo()</strong> 函数的时候，没有再调用其他函数，这里没有显示声明 <strong>return</strong>，所以这里默认 <strong>return undefined</strong>。</p>
+<p><strong>foo()</strong> 执行完了，销毁调用栈中自己的记录，依次销毁 <strong>bar()</strong> 和 <strong>baz()</strong> 的调用帧，最后完成整个流程。</p>
+<p>如果对上面的例子做如下修改：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title">foo</span> () &#123; console.log(111); &#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title">bar</span> () &#123; <span class="keyword">return</span> <span class="type">foo()</span>; &#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title">baz</span> () &#123; <span class="keyword">return</span> <span class="type">bar()</span>; &#125;</span><br><span class="line"></span><br><span class="line">baz();</span><br></pre></td></tr></table></figure></p>
+<p>这里要注意：<strong>尾调用优化只在严格模式下有效。</strong></p>
+<p>在非严格模式下，大多数引擎会包含下面两个属性，以便开发者检查调用栈：</p>
+<ul>
+<li>func.arguments: 表示对 func最近一次调用所包含的参数</li>
+<li>func.caller: 引用对 func最近一次调用的那个函数</li>
+</ul>
+<p>在尾调用优化中，这些属性不再有用，因为相关的信息可能以及被移除了。因此，严格模式(strict mode)禁止这些属性，并且尾调用优化只在严格模式下有效。</p>
+<p>如果尾调用优化生效，流程图就会变成这样：</p>
+<p><img src="http://image.liuxuan.site/blog/20180409/call_stack_tail.png" alt="call stack"></p>
+<p>我们可以很清楚的看到，尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用记录，只要直接用内层函数的调用记录取代外层函数的调用记录就可以了，调用栈中始终只保持了一条调用帧。</p>
+<p>这就叫做<strong>尾调用优化</strong>，如果所有的函数都是尾调用的话，那么在调用栈中的调用帧始终只有一条，这样会节省很大一部分的内存，这也是<strong>尾调用优化的意义</strong>。</p>
+<h3 id="尾递归"><a href="#尾递归" class="headerlink" title="尾递归"></a>尾递归</h3><h4 id="1-定义-1"><a href="#1-定义-1" class="headerlink" title="1. 定义"></a>1. 定义</h4><p>先来看一下递归，当一个函数调用自身，就叫做递归。<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    foo();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这个操作就叫做递归，但是注意了，这里没有结束条件，是死递归，所以会报栈溢出错误的，写代码时千万注意给递归添加结束条件。</p>
+<p>那么什么是尾递归？<br>前面我们知道了尾调用的概念，当一个函数尾调用自身，就叫做<strong>尾递归</strong>。<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title">foo</span> () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">foo()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-作用"><a href="#2-作用" class="headerlink" title="2. 作用"></a>2. 作用</h4><p>那么尾递归相比递归而言，有哪些不同呢？<br>我们通过下面这个求<strong>阶乘</strong>的例子来看一下：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">return</span> <span class="built_in">num</span> * <span class="built_in">factorial</span>(<span class="built_in">num</span> - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);            // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);           // <span class="number">3628800</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">500000</span>);       // Uncaught RangeError: Maximum call stack size exceeded</span><br></pre></td></tr></table></figure></p>
+<p>上面是使用递归来计算阶乘的例子，操作系统为JS引擎调用栈分配的内存是有大小限制的，如果计算的数字足够大，超出了内存最大范围，就会出现栈溢出错误。</p>
+<p>这里500000并不是临界值，只是我用了一个足够造成栈溢出的数。</p>
+<p>如果用尾递归来计算阶乘呢？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span> (<span class="params">num, total</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> factorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>, <span class="number">1</span>);                <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>, <span class="number">1</span>);               <span class="comment">// 3628800</span></span><br><span class="line">factorial(<span class="number">500000</span>, <span class="number">1</span>);           <span class="comment">// 分情况</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意，虽然说这里启用了严格模式，但是经测试，在Chrome和Firefox下，还是会报栈溢出错误，并没有进行尾调用优化</span></span><br><span class="line"><span class="comment">// Safari浏览器进行了尾调用优化，factorial(500000, 1)结果为Infinity，因为结果超出了JS可表示的数字范围</span></span><br><span class="line"><span class="comment">// 如果在node v6版本下执行，需要加--harmony_tailcalls参数，node --harmony_tailcalls test.js</span></span><br><span class="line"><span class="comment">// node最新版本已经移除了--harmony_tailcalls功能</span></span><br></pre></td></tr></table></figure></p>
+<p>通过尾递归，我们把复杂度从O(n)降低到了O(1)，如果数据足够大的话，会节省很多的计算时间。<br>由此可见，<strong>尾调用优</strong>化对递归操作意义重大，所以一些函数式编程语言将其写入了语言规格。</p>
+<h3 id="避免改写递归函数"><a href="#避免改写递归函数" class="headerlink" title="避免改写递归函数"></a>避免改写递归函数</h3><p>尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。<br>要做到这一点，需要把函数内部所有用到的中间变量改写为函数的参数，就像上面的factorial()函数改写一样。</p>
+<p>这样做的缺点就是语义不明显，要计算阶乘的函数，为什么还要另外传入一个参数叫total？<br>解决这个问题的办法有两个：</p>
+<h4 id="1-ES6参数默认值"><a href="#1-ES6参数默认值" class="headerlink" title="1. ES6参数默认值"></a>1. ES6参数默认值</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span> (<span class="params">num, total = <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> factorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>);                <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>);               <span class="comment">// 3628800</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-用一个符合语义的函数去调用改写后的尾递归函数"><a href="#2-用一个符合语义的函数去调用改写后的尾递归函数" class="headerlink" title="2. 用一个符合语义的函数去调用改写后的尾递归函数"></a>2. 用一个符合语义的函数去调用改写后的尾递归函数</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function tailFactorial (<span class="built_in">num</span>, total) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> total;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span> - <span class="number">1</span>, <span class="built_in">num</span> * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);                // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);               // <span class="number">3628800</span></span><br></pre></td></tr></table></figure>
+<p>上面这种写法其实有点类似于做了一个函数科里化，但不完全符合科里化的概念。<br><strong>函数科里化</strong>是指把接受多个参数的函数转换为接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下参数且返回结果的新函数。</p>
+<p>概念看着很绕口，我们来个例子感受一下：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 普通加法函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(x, y, z)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);        <span class="comment">// 6</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 改写为科里化加法函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="params">(x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(z)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x + y + z;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>);        <span class="comment">// 6</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，科里化函数通过闭包找到父作用域里的变量，最后依次相加输出结果。<br>通过这个例子，可能看不出为什么要用科里化，有什么好处，这个我们以后再谈，这里先引出一个概念。</p>
+<p>是把接受多个参数的函数变换成接受一个单一参数(最初函数的第一个参数)的函数，并且返回接受余下的参数且返回结果的新函数的技术。</p>
+<p>如果用科里化改写求阶乘的例子：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 科里化函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> <span class="params">(fn)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _fnArgLength = fn.length;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">wrap</span> <span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> _args = args;</span><br><span class="line">        <span class="keyword">var</span> _argLength = _args.length;</span><br><span class="line">        <span class="comment">// 如果传的是所有参数，直接返回fn调用</span></span><br><span class="line">        <span class="keyword">if</span> (_fnArgLength === _argLength) &#123;</span><br><span class="line">            <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, args);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">act</span> <span class="params">(<span class="rest_arg">...args</span>)</span> </span>&#123;</span><br><span class="line">            _args = _args.concat(args);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (_args.length === _fnArgLength) &#123;</span><br><span class="line">                <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, _args);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> act;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> act;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尾递归函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tailFactorial</span> <span class="params">(num, total)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">    <span class="keyword">return</span> tailFactorial(num - <span class="number">1</span>, num * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 改写</span></span><br><span class="line"><span class="keyword">var</span> factorial = curry(tailFactorial);</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>)(<span class="number">1</span>);        <span class="comment">// 120</span></span><br><span class="line">factorial(<span class="number">10</span>)(<span class="number">1</span>);       <span class="comment">// 3628800</span></span><br></pre></td></tr></table></figure></p>
+<p>这是符合科里化概念的写法，在阮一峰老师的文章中是这样写的：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">currying</span><span class="params">(fn, n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.call(<span class="keyword">this</span>, m, n);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">tailFactorial</span><span class="params">(n, total)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n === <span class="number">1</span>) <span class="keyword">return</span> total;</span><br><span class="line">  <span class="keyword">return</span> tailFactorial(n - <span class="number">1</span>, n * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> factorial = currying(tailFactorial, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">factorial(<span class="number">5</span>) <span class="comment">// 120</span></span><br></pre></td></tr></table></figure></p>
+<p>我个人认为，这种写法其实不是科里化，因为并没有将多参数的tailFacrotial改写为接受单参数的形式，只是换了一种写法，和下面这样写意义是一样的：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function <span class="built_in">factorial</span> (<span class="built_in">num</span>) &#123;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function tailFactorial (<span class="built_in">num</span>, total) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">num</span> === <span class="number">1</span>) <span class="built_in">return</span> total;</span><br><span class="line">    <span class="built_in">return</span> tailFactorial(<span class="built_in">num</span> - <span class="number">1</span>, <span class="built_in">num</span> * total);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">5</span>);                // <span class="number">120</span></span><br><span class="line"><span class="built_in">factorial</span>(<span class="number">10</span>);               // <span class="number">3628800</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>这篇文章我们主要讨论了尾调用优化和科里化。<br>要注意的是，经过测试，Chrome和Firefox并没有对尾调用进行优化，Safari对尾调用进行了优化。<br>Node高版本也已经去除了通过–harmony_tailcalls参数启用尾调用优化。</p>
+<p>有任何问题，欢迎大家留言讨论~~</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://www.ruanyifeng.com/blog/2015/04/tail-call.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/04/tail-call.html</a><br><a href="https://juejin.im/post/5a4d898a518825698e7277d1" target="_blank" rel="noopener">https://juejin.im/post/5a4d898a518825698e7277d1</a><br><a href="https://github.com/lamdu/lamdu/issues/90" target="_blank" rel="noopener">https://github.com/lamdu/lamdu/issues/90</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      <div>
+            
+      </div>
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/04/03/front_end_test_karma_jasmine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1143,214 +1387,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/06/03/javascript_05_execution_context/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/03/javascript_05_execution_context/" itemprop="url">JS学习系列 05 - 执行上下文</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T10:36:00+08:00">
-                2017-06-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/06/03/javascript_05_execution_context/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://blog.liuxuan.site/2017/06/03/javascript_05_execution_context/" class="cy_cmt_count" data-xid="2017/06/03/javascript_05_execution_context/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/06/03/javascript_05_execution_context/" class="leancloud_visitors" data-flag-title="JS学习系列 05 - 执行上下文">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,107字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://image.liuxuan.site/blog/20180407/execution_context.jpeg?imageView2/1/w/1000/h/400" alt="execution-context"></p>
-<p>在我们前面理解了作用域之后，“作用域链”这个概念就产生了。那么作用域链是什么意思，它又是怎么形成的，跟哪些概念有关系，这就是我接下来几章想和大家探讨的内容：<strong>执行上下文、变量对象和作用域链</strong>。根据顺序我们也可以看出来，想要理解作用域链，执行上下文是我们碰到的第一个坎。</p>
-<p>这一章我们就来讨论一下到底什么是<strong>执行上下文</strong>。</p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>当 JS 引擎开始执行预编译生成的代码时，就会进入到一个<strong>执行上下文</strong>（Executable Code - 简称 <strong>EC</strong>）。</p>
-<p>在 ECMA 标准规范里并没有从技术角度去定义 EC 的具体类型和结构，这个是在实现 ECMAScript 引擎时需要考虑的问题。</p>
-<p>但是在逻辑上，我们可以将活动的执行上下文看成一个<strong>栈结构</strong>。栈底部永远是<strong>全局上下文（global context）</strong>，而顶部就是当前活动的执行上下文。执行到当前代码时，上下文入栈，执行完毕后，上下文出栈。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/03/javascript_05_execution_context/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      <div>
-            
-      </div>
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1405,7 +1441,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1416,7 +1452,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1427,7 +1463,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1486,7 +1522,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">16.7k</span>
+    <span title="访问总数">19.2k</span>
   
 </div>
 
