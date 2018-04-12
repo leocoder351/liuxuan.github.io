@@ -5,7 +5,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/04/10/tail_call/</loc>
-    <lastmod>2018-04-10T13:46:02.000Z</lastmod>
+    <lastmod>2018-04-12T13:50:02.000Z</lastmod>
     <data>
         <display>
         <title>尾调用和尾递归</title>
