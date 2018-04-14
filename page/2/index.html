@@ -321,6 +321,215 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/10/javascript_06_variable_object/" itemprop="url">JS学习系列 06 - 变量对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T10:36:00+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/08/10/javascript_06_variable_object/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2017/08/10/javascript_06_variable_object/" class="cy_cmt_count" data-xid="2017/08/10/javascript_06_variable_object/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/08/10/javascript_06_variable_object/" class="leancloud_visitors" data-flag-title="JS学习系列 06 - 变量对象">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,150字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="http://image.liuxuan.site/blog/20180407/variable_object.jpg?imageView2/1/w/1000/h/400" alt="variable-object"></p>
+<p>上一节我们讨论了<a href="http://www.jianshu.com/p/05641baa5134" target="_blank" rel="noopener">执行上下文</a>，那么在上下文中到底有什么内容，为什么它会和作用域链扯上关系，JS 解释器又是怎么找到我们声明的函数和变量，看完这一节，相信大家就不会再迷惑了。</p>
+<p><strong>变量对象</strong>就是<strong>执行上下文</strong>和<strong>作用域链</strong>中间的桥梁。<br>剧透一下，神秘的 <strong>this</strong> 就存在于执行上下文环境之中！<br>当然，之后我会单独用几节来彻底讲明白 <strong>this 到底是什么</strong>（其实 this 很简单）。</p>
+<p>接下来，我们进入正文。</p>
+<h3 id="执行上下文包含什么"><a href="#执行上下文包含什么" class="headerlink" title="执行上下文包含什么"></a>执行上下文包含什么</h3><p>一个执行上下文我们可以抽象的理解为对象（object）。<br>每一个执行上下文都有一些属性（又称为上下文状态），它们用来追踪关联代码的执行进度。</p>
+<p>我用一个结构图来说明：</p>
+<p><img src="http://image.liuxuan.site/blog/20180324/variable_object.png" alt="执行上下文环境 object"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/10/javascript_06_variable_object/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      <div>
+            
+      </div>
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/06/03/javascript_05_execution_context/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1135,216 +1344,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/02/10/javascript_01_principles_of_compiler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/10/javascript_01_principles_of_compiler/" itemprop="url">JS学习系列 01 - 编译原理和作用域</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-10T10:36:00+08:00">
-                2017-02-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/02/10/javascript_01_principles_of_compiler/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://blog.liuxuan.site/2017/02/10/javascript_01_principles_of_compiler/" class="cy_cmt_count" data-xid="2017/02/10/javascript_01_principles_of_compiler/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/02/10/javascript_01_principles_of_compiler/" class="leancloud_visitors" data-flag-title="JS学习系列 01 - 编译原理和作用域">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,950字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  7分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://image.liuxuan.site/blog/20180407/complie.jpg?imageView2/1/w/1000/h/400" alt="complie"></p>
-<p>在学习 javascript 的过程中，我们第一步最应该了解和掌握的就是作用域，与之相关还有程序是怎么编译的，变量是怎么查找的，js 引擎是什么，引擎和作用域的关系又是什么，这些是 javascript 这门语言最基础的地基，至于对象、函数、闭包、原型链、作用域链以及设计模式等等都是地基以上的建筑，只有地基打牢了，建筑才会稳。同样只有先把最基础的部分掌握了，之后的扩展学习才会更容易。</p>
-<p>这一节我要说的，就是作用域和编译原理，从这里开始，我会一点点的把深入学习 javascript 的过程中总结的知识点以及遇到的问题，一篇一篇的梳理出来，如果有志同道合的朋友，可以关注我这个系列，我们一起玩转 javascript。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/10/javascript_01_principles_of_compiler/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      <div>
-            
-      </div>
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1394,7 +1398,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1416,7 +1420,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1475,7 +1479,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">19.2k</span>
+    <span title="访问总数">23.8k</span>
   
 </div>
 

@@ -4,8 +4,36 @@
 
     
   <url>
+    <loc>//blog.liuxuan.site/2018/04/14/v8_garbage_collection/</loc>
+    <lastmod>2018-04-14T08:42:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>聊聊V8引擎的垃圾回收</title>
+        <pubTime>2018-04-14T08:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>V8</tag>
+         
+        <tag>垃圾回收</tag>
+         
+        <tag>Scavenge</tag>
+         
+        <tag>Mark-Sweep</tag>
+         
+         
+           
+             
+              <breadCrumb title="Javascript" url="//blog.liuxuan.site/categories/Javascript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>//blog.liuxuan.site/2018/04/10/tail_call/</loc>
-    <lastmod>2018-04-12T13:50:02.000Z</lastmod>
+    <lastmod>2018-04-12T14:17:21.000Z</lastmod>
     <data>
         <display>
         <title>尾调用和尾递归</title>
