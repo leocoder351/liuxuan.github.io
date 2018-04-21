@@ -5,7 +5,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/04/14/v8_garbage_collection/</loc>
-    <lastmod>2018-04-14T08:42:20.000Z</lastmod>
+    <lastmod>2018-04-21T15:17:51.000Z</lastmod>
     <data>
         <display>
         <title>聊聊V8引擎的垃圾回收</title>
@@ -24,7 +24,7 @@
          
            
              
-              <breadCrumb title="Javascript" url="//blog.liuxuan.site/categories/Javascript/"/>
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
           
         </display>
     </data>
@@ -33,7 +33,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/04/10/tail_call/</loc>
-    <lastmod>2018-04-12T14:17:21.000Z</lastmod>
+    <lastmod>2018-04-21T15:17:48.000Z</lastmod>
     <data>
         <display>
         <title>尾调用和尾递归</title>
@@ -52,7 +52,147 @@
          
            
              
-              <breadCrumb title="Javascript" url="//blog.liuxuan.site/categories/Javascript/"/>
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2018/03/10/javascript_07_label_statement/</loc>
+    <lastmod>2018-04-21T15:17:44.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 07 - 标签声明（Label Statement）</title>
+        <pubTime>2018-03-10T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>Label Statement</tag>
+         
+        <tag>C语言</tag>
+         
+        <tag>Goto语句</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/</loc>
+    <lastmod>2018-04-21T15:17:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 06 - 变量对象</title>
+        <pubTime>2017-08-10T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>执行上下文</tag>
+         
+        <tag>变量对象</tag>
+         
+        <tag>Execution Context</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2017/06/03/javascript_05_execution_context/</loc>
+    <lastmod>2018-04-21T15:17:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 05 - 执行上下文</title>
+        <pubTime>2017-06-03T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>执行上下文</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2017/05/10/javascript_04__variable_lifting/</loc>
+    <lastmod>2018-04-21T15:17:36.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 04 - 提升</title>
+        <pubTime>2017-05-10T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>作用域</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2017/04/10/javascript_03__function_scope/</loc>
+    <lastmod>2018-04-21T15:17:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 03 - 函数作用域和块作用域</title>
+        <pubTime>2017-04-10T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>作用域</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>//blog.liuxuan.site/2017/03/05/javascript_02_static_scope/</loc>
+    <lastmod>2018-04-21T15:17:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>JS学习系列 02 - 词法作用域</title>
+        <pubTime>2017-03-05T02:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>作用域</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
           
         </display>
     </data>
@@ -136,146 +276,6 @@
         <tag>Javascript</tag>
          
         <tag>编译原理</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2017/03/05/javascript_02_static_scope/</loc>
-    <lastmod>2018-04-06T19:05:51.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 02 - 词法作用域</title>
-        <pubTime>2017-03-05T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>作用域</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2017/04/10/javascript_03__function_scope/</loc>
-    <lastmod>2018-04-06T19:05:47.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 03 - 函数作用域和块作用域</title>
-        <pubTime>2017-04-10T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>作用域</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2017/05/10/javascript_04__variable_lifting/</loc>
-    <lastmod>2018-04-06T19:05:44.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 04 - 提升</title>
-        <pubTime>2017-05-10T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>作用域</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2017/06/03/javascript_05_execution_context/</loc>
-    <lastmod>2018-04-06T19:05:41.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 05 - 执行上下文</title>
-        <pubTime>2017-06-03T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>执行上下文</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2018/03/10/javascript_07_label_statement/</loc>
-    <lastmod>2018-04-06T19:05:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 07 - 标签声明（Label Statement）</title>
-        <pubTime>2018-03-10T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>Label Statement</tag>
-         
-        <tag>C语言</tag>
-         
-        <tag>Goto语句</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/</loc>
-    <lastmod>2018-04-06T19:05:34.000Z</lastmod>
-    <data>
-        <display>
-        <title>JS学习系列 06 - 变量对象</title>
-        <pubTime>2017-08-10T02:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>执行上下文</tag>
-         
-        <tag>变量对象</tag>
-         
-        <tag>Execution Context</tag>
          
          
            

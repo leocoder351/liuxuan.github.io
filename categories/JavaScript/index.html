@@ -94,7 +94,7 @@
 <meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
 <meta property="og:type" content="website">
 <meta property="og:title" content="liuxuan的博客">
-<meta property="og:url" content="//blog.liuxuan.site/categories/Javascript/index.html">
+<meta property="og:url" content="//blog.liuxuan.site/categories/JavaScript/index.html">
 <meta property="og:site_name" content="liuxuan的博客">
 <meta property="og:description" content="科大讯飞">
 <meta property="og:locale" content="zh-Hans">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="//blog.liuxuan.site/categories/Javascript/"/>
+  <link rel="canonical" href="//blog.liuxuan.site/categories/JavaScript/"/>
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>分类: Javascript | liuxuan的博客</title>
+  <title>分类: JavaScript | liuxuan的博客</title>
   
 
 
@@ -313,7 +313,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>Javascript<small>分类</small>
+        <h1>JavaScript<small>分类</small>
         </h1>
       </div>
 
@@ -374,6 +374,90 @@
 
 
       
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2018/03/10/javascript_07_label_statement/" itemprop="url">
+              
+                <span itemprop="name">JS学习系列 07 - 标签声明（Label Statement）</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-03-10T10:36:00+08:00"
+              content="2018-03-10" >
+          03-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/08/10/javascript_06_variable_object/" itemprop="url">
+              
+                <span itemprop="name">JS学习系列 06 - 变量对象</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-08-10T10:36:00+08:00"
+              content="2017-08-10" >
+          08-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2017/06/03/javascript_05_execution_context/" itemprop="url">
+              
+                <span itemprop="name">JS学习系列 05 - 执行上下文</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-06-03T10:36:00+08:00"
+              content="2017-06-03" >
+          06-03
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
     </div>
 
   </div>
@@ -382,6 +466,10 @@
   
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/categories/JavaScript/page/2/">2</a><a class="extend next" rel="next" href="/categories/JavaScript/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
 
@@ -441,7 +529,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1073,93 +1161,6 @@
         .fail(function (object, error) {
           console.log("Error: " + error.code + " " + error.message);
         });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  <!-- my add -->
-  
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-   
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/js/src/love.js"></script>
-  <!-- -->
-</body>
-</html>
-});
     }
 
     function addCount(Counter) {
