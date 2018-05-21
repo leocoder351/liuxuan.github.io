@@ -321,6 +321,215 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/05/21/learn_https_through_photos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/learn_https_through_photos/" itemprop="url">看图学HTTPS</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T21:36:00+08:00">
+                2018-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/05/21/learn_https_through_photos/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2018/05/21/learn_https_through_photos/" class="cy_cmt_count" data-xid="2018/05/21/learn_https_through_photos/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2018/05/21/learn_https_through_photos/" class="leancloud_visitors" data-flag-title="看图学HTTPS">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,811字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="http://image.liuxuan.site/blog/20180521/https-logo.jpg?imageView2/1/w/1000/h/400" alt="https"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前说到HTTPS，在我的概念中就是更安全，需要服务器配置证书，但是到底什么是HTTPS，为什么会更安全，整套流程又是如何实现的，在脑子里没有具体的概念。所以，我花了几天的时间，通过参考一些文章，学习了HTTPS整套机制的实现，想要通过一篇文章把我学习到的东西总结出来，让更多之前不清楚HTTPS到底是什么的同学有一个入门的理解。</p>
+<p>我看过的很多文章都是通过大量的文字和协议图来解释，但往往会让人感觉有点枯燥，这篇文章我会通过一幅幅流程图，形象的说明从HTTP到HTTPS的演变过程，让大家可以更容易理解一些。当然，这个只是入门级，如果想要学习更深入的HTTPS的知识，还是要深入到一个个协议里面，看一些大部头，才可以达到完全理解的效果。</p>
+<p>本文也会同步到我的<a href="http://blog.liuxuan.site" target="_blank" rel="noopener">个人网站</a>。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="HTTP是什么样的？"><a href="#HTTP是什么样的？" class="headerlink" title="HTTP是什么样的？"></a>HTTP是什么样的？</h2><p>HTTP是属于应用层的协议，它是基于TCP/IP的，所以它只是规定一些要传输的内容，以及头部信息，然后通过TCP协议进行传输，依靠IP协议进行寻址，通过一幅最简单的图来描述：</p>
+<p><img src="http://p54fus2hp.bkt.clouddn.com/blog/20180521/https-1.png" alt="http-1"></p>
+<p>客户端发出请求，服务端进行响应，就是这么简单。在整个过程中，没有任何加密的东西，所以它是不安全的，中间人可以进行拦截，获取传输和响应的数据，造成数据泄露。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/21/learn_https_through_photos/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      <div>
+            
+      </div>
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/04/14/v8_garbage_collection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1141,215 +1350,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/12/10/html_meta_viewport/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/10/html_meta_viewport/" itemprop="url">HTML - 移动端 meta viewport</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-10T10:36:00+08:00">
-                2017-12-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTML/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/12/10/html_meta_viewport/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://blog.liuxuan.site/2017/12/10/html_meta_viewport/" class="cy_cmt_count" data-xid="2017/12/10/html_meta_viewport/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/12/10/html_meta_viewport/" class="leancloud_visitors" data-flag-title="HTML - 移动端 meta viewport">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,429字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  5分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://image.liuxuan.site/blog/20180407/meta_viewport.jpg?imageView2/1/w/1000/h/400" alt="meta-viewport"></p>
-<p>我们在做响应式布局的时候，肯定要考虑到适配移动端的屏幕，大多数同学也一定复制粘贴过下面这段代码：<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta <span class="attr">name="viewport"</span> <span class="attr">content="width=device-width,</span> <span class="attr">initial-scale=1.0,</span> <span class="attr">maximum-scale=1.0,</span> <span class="attr">user-scalable=0"&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>添加了这段代码以后，我们在移动端看到的显示效果就非常好，整个页面不会缩成一团。但是很多时候我们只是拿来用了，没有去理解这段代码究竟干了什么，为什么会影响移动端页面的布局效果，它又是怎么起作用的。今天我们就花点时间来彻底搞明白 <strong>viewport 到底是什么</strong>。</p>
-<h3 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h3><p>在讨论 viewport 之前，我们需要理解一些单位的概念：</p>
-<ul>
-<li><strong>设备像素 / 物理像素（physical pixels）</strong><br>是指屏幕的实际物理像素点，比如 iPhone6 Plus 是 1920*1080 的像素分辨率，那么代表它纵向有 1920 个物理像素点，横向有 1080 个物理像素点。</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/10/html_meta_viewport/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      <div>
-            
-      </div>
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1404,7 +1404,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1415,7 +1415,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1426,7 +1426,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1485,7 +1485,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">23.8k</span>
+    <span title="访问总数">25.6k</span>
   
 </div>
 

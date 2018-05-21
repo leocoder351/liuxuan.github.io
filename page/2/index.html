@@ -321,6 +321,215 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/12/10/html_meta_viewport/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/10/html_meta_viewport/" itemprop="url">HTML - 移动端 meta viewport</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-10T10:36:00+08:00">
+                2017-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/12/10/html_meta_viewport/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url:://blog.liuxuan.site/2017/12/10/html_meta_viewport/" class="cy_cmt_count" data-xid="2017/12/10/html_meta_viewport/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/12/10/html_meta_viewport/" class="leancloud_visitors" data-flag-title="HTML - 移动端 meta viewport">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,429字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="http://image.liuxuan.site/blog/20180407/meta_viewport.jpg?imageView2/1/w/1000/h/400" alt="meta-viewport"></p>
+<p>我们在做响应式布局的时候，肯定要考虑到适配移动端的屏幕，大多数同学也一定复制粘贴过下面这段代码：<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta <span class="attr">name="viewport"</span> <span class="attr">content="width=device-width,</span> <span class="attr">initial-scale=1.0,</span> <span class="attr">maximum-scale=1.0,</span> <span class="attr">user-scalable=0"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>添加了这段代码以后，我们在移动端看到的显示效果就非常好，整个页面不会缩成一团。但是很多时候我们只是拿来用了，没有去理解这段代码究竟干了什么，为什么会影响移动端页面的布局效果，它又是怎么起作用的。今天我们就花点时间来彻底搞明白 <strong>viewport 到底是什么</strong>。</p>
+<h3 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h3><p>在讨论 viewport 之前，我们需要理解一些单位的概念：</p>
+<ul>
+<li><strong>设备像素 / 物理像素（physical pixels）</strong><br>是指屏幕的实际物理像素点，比如 iPhone6 Plus 是 1920*1080 的像素分辨率，那么代表它纵向有 1920 个物理像素点，横向有 1080 个物理像素点。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/10/html_meta_viewport/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      <div>
+            
+      </div>
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/08/10/javascript_06_variable_object/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1137,213 +1346,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2017/03/05/javascript_02_static_scope/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="liuxuan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/img/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liuxuan的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/05/javascript_02_static_scope/" itemprop="url">JS学习系列 02 - 词法作用域</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-05T10:36:00+08:00">
-                2017-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2017/03/05/javascript_02_static_scope/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url:://blog.liuxuan.site/2017/03/05/javascript_02_static_scope/" class="cy_cmt_count" data-xid="2017/03/05/javascript_02_static_scope/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2017/03/05/javascript_02_static_scope/" class="leancloud_visitors" data-flag-title="JS学习系列 02 - 词法作用域">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,848字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  7分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://image.liuxuan.site/blog/20180407/static_scope.jpg?imageView2/1/w/1000/h/400" alt="static-scope"></p>
-<h3 id="两种作用域"><a href="#两种作用域" class="headerlink" title="两种作用域"></a>两种作用域</h3><p>“作用域”我们知道是一套规则，用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找。</p>
-<p>作用域有两种主要工作模型：<strong>词法作用域</strong>和<strong>动态作用域</strong>。</p>
-<p>大多数语言采用的都是词法作用域，少数语言采用动态作用域（例如 Bash 脚本），这里我们主要讨论词法作用域。</p>
-<h3 id="词法"><a href="#词法" class="headerlink" title="词法"></a>词法</h3><p>大部分标准语言编译器的第一个工作阶段叫作<strong>词法化</strong>。<br>简单地说，词法作用域是由你在写代码时将变量和函数（块）作用域写在哪里来决定的。当然，也会有一些方法来动态修改作用域，后边我会介绍。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/05/javascript_02_static_scope/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      <div>
-            
-      </div>
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1398,7 +1400,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1409,7 +1411,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1420,7 +1422,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1479,7 +1481,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">23.8k</span>
+    <span title="访问总数">25.6k</span>
   
 </div>
 

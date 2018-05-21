@@ -4,6 +4,34 @@
 
     
   <url>
+    <loc>//blog.liuxuan.site/2018/05/21/learn_https_through_photos/</loc>
+    <lastmod>2018-05-21T13:13:29.000Z</lastmod>
+    <data>
+        <display>
+        <title>看图学HTTPS</title>
+        <pubTime>2018-05-21T13:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>HTTPS</tag>
+         
+        <tag>SSL/TLS</tag>
+         
+        <tag>非对称加密</tag>
+         
+        <tag>对称加密</tag>
+         
+         
+           
+             
+              <breadCrumb title="HTTP" url="//blog.liuxuan.site/categories/HTTP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>//blog.liuxuan.site/2018/04/14/v8_garbage_collection/</loc>
     <lastmod>2018-04-21T15:17:51.000Z</lastmod>
     <data>
