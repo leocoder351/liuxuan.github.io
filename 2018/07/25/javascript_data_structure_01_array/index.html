@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+
+  <meta name="keywords" content="Javascript,数据结构,算法,数组," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="liuxuan的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="![label-statement](http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400)  ## 一、创建数组 #### 1.1 使用Array构造函数 123var arr1 = new Array(); // 创建一个空数组var arr2 = new Array(10);   // 创建一个">
+<meta name="keywords" content="Javascript,数据结构,算法,数组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript数据结构01 - 数组">
+<meta property="og:url" content="//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/index.html">
+<meta property="og:site_name" content="liuxuan的博客">
+<meta property="og:description" content="![label-statement](http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400)  ## 一、创建数组 #### 1.1 使用Array构造函数 123var arr1 = new Array(); // 创建一个空数组var arr2 = new Array(10);   // 创建一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-25T15:11:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript数据结构01 - 数组">
+<meta name="twitter:description" content="![label-statement](http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400)  ## 一、创建数组 #### 1.1 使用Array构造函数 123var arr1 = new Array(); // 创建一个空数组var arr2 = new Array(10);   // 创建一个">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/"/>
+
+
+
+
+
+
+
+  <title>JavaScript数据结构01 - 数组 | liuxuan的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c8f840e91320da3bc5c5748fa3d6c08";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/leocoder351" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/assets/img/forkme_left_darkblue.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liuxuan的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">苍山如海, 残阳如血</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liuxuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liuxuan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript数据结构01 - 数组</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-25T16:36:00+08:00">
+                2018-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/07/25/javascript_data_structure_01_array/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/07/25/javascript_data_structure_01_array/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2018/07/25/javascript_data_structure_01_array/" class="leancloud_visitors" data-flag-title="JavaScript数据结构01 - 数组">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5,919字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  25分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+![label-statement](http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400)
+
+## 一、创建数组
+#### 1.1 使用Array构造函数
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = <span class="keyword">new</span> <span class="type">Array</span>(); <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="number">10</span>);   <span class="comment">// 创建一个包含20项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>);  <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
+
+#### 1.2 使用数组字面量表示法
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [];  <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="number">10</span>];    <span class="comment">// 创建一个包含1项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = [<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>];   <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+## 二、常用数组方法
+
+|方法名|描述|
+|------|----|
+|join|把数组的所有元素放入一个字符串，元素通过指定的分隔符进行分隔|
+|pop|删除并返回数组的最后一个元素|
+|push|向数组的末尾添加一个或更多元素，并返回新的长度|
+|shift|删除并返回数组的第一个元素|
+|unshift|向数组的开头添加一个或更多元素，并返回新的长度|
+|slice|从某个已有的数组返回指定的元素|
+|indexOf|返回第一个与给定参数相等的数组元素的索引，没有找到则返回-1|
+|lastIndexOf|返回在数组中搜索到的与给定参数相等的元素的索引里的最大的值，没有找到则返回-1|
+|sort|对数组的元素进行排序|
+|splice|删除元素，并向数组添加新元素|
+|toString|把数组转换为字符串，并返回结果|
+|toLocaleString|把数组转换为本地字符串，并返回结果|
+|valueOf|返回数组对象的原始值|
+|forEach|对数组中的每一项运行指定函数，这个方法没有返回值|
+|concat|连接2个或更多数组，并返回结果|
+|every|对数组中的每一项运行指定函数，如果该函数对每一项都返回true，则返回true|
+|some|对数组中的每一项运行指定函数，如果任一项返回true，则返回true|
+|filter|对数组中的每一项运行指定函数，返回该函数会返回true的项组成的数组|
+|reverse|颠倒数组中元素的顺序|
+|map|对数组中的每一项运行指定函数，返回每次函数调用的结果组成的数组|
+|reduce|接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值|
+|reduceRight|接收一个函数作为累加器，数组中的每个值（从右到左）开始缩减，最终计算为一个值|
+
+**PS：原始值是指固定而简单的值，存放在栈中的简单数据段，它们的值直接存储在变量访问的位置。**
+
+JavaScript中有五种原始类型，也叫基本类型： <br>
+**Number、String、Boolean、Undefined、Null**
+
+## 三、演示实例
+#### 3.1 join
+**定义和用法** <br>
+
+join()方法用于把数组中的所有元素放入一个字符串。<br>
+元素是通过指定的分隔符进行分隔的。
+
+**语法** <br>
+
+> arrayObject.join(separator)
+
+|参数|描述|
+|---|----|
+|seperator|可选。指定要使用的分隔符，如果省略该参数，则使用逗号作为分隔符|
+
+**返回值** <br>
+
+返回一个字符串。该字符串是通过把 arrayObject 的每个元素转换为字符串，然后把这些字符串连接起来，在两个元素之间插入 separator 字符串而生成的。<br>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> str1 = arr.join();</span><br><span class="line"><span class="keyword">var</span> str2 = arr.join(<span class="string">''</span>);</span><br><span class="line"><span class="keyword">var</span> str3 = arr.join(<span class="string">' '</span>);</span><br><span class="line"><span class="keyword">var</span> str4 = arr.join(<span class="string">'-'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str1);  <span class="comment">// "Geroge,John,Thomas"</span></span><br><span class="line"><span class="built_in">console</span>.log(str2);  <span class="comment">// "GerogeJohnThomas"</span></span><br><span class="line"><span class="built_in">console</span>.log(str3);  <span class="comment">// "Geroge John Thomas"</span></span><br><span class="line"><span class="built_in">console</span>.log(str4);  <span class="comment">// "Geroge-John-Thomas"</span></span><br></pre></td></tr></table></figure>
+
+#### 3.2 pop
+**定义和用法** <br>
+
+pop()方法用于删除并返回数组的最后一个元素。
+
+**语法** <br>
+
+> arrayObject.pop()
+
+**返回值** <br>
+
+arrayObject 的最后一个元素。<br>
+
+**说明** <br>
+
+pop() 方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> arr = <span class="built_in">new</span> Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);           // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">pop</span>());     // <span class="string">"Thomas"</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);           // [<span class="string">"Geroge"</span>, <span class="string">"Thomas"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.3 push
+**定义和用法** <br>
+
+push()方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+
+**语法** <br>
+
+> arrayObject.push(newElement1, newElement2, ..., newElementX)
+
+|参数|描述|
+|---|----|
+|newElement1|必需。要添加到数组末尾的第一个元素|
+|newElement2|可选。要添加到数组末尾的第二个元素|
+|newElementX|可选。可添加多个元素|
+
+**返回值** <br>
+
+把指定的值添加到数组后的新长度。<br>
+
+**说明** <br>
+
+push() 方法可把它的参数顺序添加到 arrayObject 的尾部。它直接修改 arrayObject，而不是创建一个新的数组。push() 方法和 pop() 方法使用数组提供的先进后出栈的功能。
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> arr = <span class="built_in">new</span> Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);                           // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">push</span>(<span class="string">"James"</span>));             // <span class="number">4</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);                           // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">push</span>(<span class="string">"Peter"</span>, <span class="string">"Sara"</span>));     // <span class="number">6</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);                           // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Peter"</span>, <span class="string">"Sara"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.4 shift
+**定义和用法** <br>
+
+shift()方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
+
+**语法** <br>
+
+> arrayObject.shift()
+
+**返回值** <br>
+
+数组原来的第一个元素的值。<br>
+
+**说明** <br>
+
+如果数组是空的，那么 shift() 方法将不进行任何操作，返回 undefined 值。请注意，该方法不创建新数组，而是直接修改原有的 arrayObject。
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> arr = <span class="built_in">new</span> Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);           // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.shift());   // <span class="string">"Geroge"</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);           // [<span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.5 unshift
+**定义和用法** <br>
+
+unshift()方法可向数组的开头添加一个或多个元素，并返回新的长度。
+
+**语法** <br>
+
+> arrayObject.unshift(newElement1, newElement2, ..., newElementX)
+
+|参数|描述|
+|---|----|
+|newElement1|必需。要添加到数组开头的第一个元素|
+|newElement2|可选。要添加到数组开头的第二个元素|
+|newElementX|可选。可添加多个元素|
+
+**返回值** <br>
+
+arrayObject 的新长度。<br>
+
+**说明** <br>
+
+unshift() 方法将把它的参数插入 arrayObject 的头部，并将已经存在的元素顺次地移到较高的下标处，以便留出空间。该方法的第一个参数将成为数组的新元素 0，如果还有第二个参数，它将成为新的元素 1，以此类推。
+
+请注意，unshift() 方法不创建新的创建，而是直接修改原有的数组。
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> arr = <span class="built_in">new</span> Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);                               // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.unshift(<span class="string">"James"</span>));              // <span class="number">4</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);                               // [<span class="string">"James"</span>, <span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.unshift(<span class="string">"Peter"</span>, <span class="string">"Sara"</span>));      // <span class="number">6</span></span><br><span class="line">console.<span class="built_in">log</span>(arr);                               // [<span class="string">"Peter"</span>, <span class="string">"Sara"</span>, <span class="string">"James"</span>, <span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.6 slice
+**定义和用法** <br>
+
+slice()方法可从已有的数组中返回选定的元素。slice()方法不改变原数组。
+
+**语法** <br>
+
+> arrayObject.slice(start, end)
+
+|参数|描述|
+|-------|----|
+|start|必需。规定从何处开始选取。<br>如果是负数，那么它规定从数组尾部开始算起的位置。<br>也就是说，-1指最后一个元素，-2指倒数第二个元素，以此类推。|
+|end|可选。规定从何处结束选取。<br>该参数是数组片断结束处的数组下标。<br>如果没有指定该参数，那么切分的数组包含从start到数组结束的所有元素。<br>如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。|
+
+**返回值** <br>
+
+返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。<br>
+
+**说明** <br>
+
+请注意，该方法并不会修改数组，而是返回一个子数组。如果想删除数组中的一段元素，应该使用方法 Array.splice()。
+
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var arr = new <span class="symbol">Array</span>(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr);                   // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br><span class="line">console.log(arr.slice(<span class="number">0</span>));          // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br><span class="line">console.log(arr.slice(<span class="number">1</span>));          // [<span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br><span class="line">console.log(arr.slice(<span class="number">1</span>, <span class="number">3</span>));       // [<span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.log(arr.slice(<span class="number">1</span>, <span class="number">-2</span>));      // [<span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>]</span><br><span class="line">console.log(arr.slice(<span class="number">-1</span>, <span class="number">-2</span>));     // []</span><br><span class="line">console.log(arr.slice(<span class="number">-2</span>, <span class="number">-1</span>));     // [<span class="string">"Adrew"</span>]</span><br><span class="line">console.log(arr);                   // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.7 indexOf
+**定义和用法** <br>
+
+indexOf()方法可返回某个指定的值在数组中首次出现的位置。从左往右找，找不到返回-1。
+
+**语法** <br>
+
+> arrayObject.indexOf(searchValue, fromIndex)
+
+|参数|描述|
+|-------|----|
+|searchValue|必需。规定需检索的值。|
+|fromIndex|可选的整数参数，开始查找的位置。<br>如果该索引值大于或等于数组长度，意味着不会在数组里查找，返回-1。<br>如果参数中提供的索引值是一个负值，则将其作为数组末尾的一个抵消，<br>即-1表示从最后一个元素开始查找，-2表示从倒数第二个元素开始查找 ，以此类推。 <br>注意：如果参数中提供的索引值是一个负值，并不改变其查找顺序，<br>查找顺序仍然是从前向后查询数组。如果抵消后的索引值仍小于0，<br>则整个数组都将会被查询。其默认值为0|
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Thomas'</span>));             <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Thomas'</span>, <span class="number">2</span>));          <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Thomas'</span>, <span class="number">3</span>));          <span class="comment">// -1</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Thomas'</span>, <span class="number">-4</span>));         <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Thomas'</span>, <span class="number">-3</span>));         <span class="comment">// -1</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="string">'Peter'</span>));              <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+
+#### 3.8 lastIndexOf
+**定义和用法** <br>
+
+lastIndexOf()方法可返回某个指定的值在数组中首次出现的位置。从右往左找，找不到返回-1。
+
+**语法** <br>
+
+> arrayObject.indexOf(searchValue, fromIndex)
+
+|参数|描述|
+|-------|----|
+|searchValue|必需。规定需检索的值。|
+|fromIndex|可选的整数参数，从此位置开始逆向查找。<br>默认为数组的长度减 1，即整个数组都被查找。<br>如果该值大于或等于数组的长度，则整个数组会被查找。<br>如果为负值，将其视为从数组末尾向前的偏移。<br>即使该值为负，数组仍然会被从后向前查找。<br>如果该值为负时，其绝对值大于数组长度，则方法返回 -1，即数组不会被查找|
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>));             <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>, <span class="number">2</span>));          <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>, <span class="number">3</span>));          <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>, <span class="number">1</span>));          <span class="comment">// -1</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>, <span class="number">-4</span>));         <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Thomas'</span>, <span class="number">-3</span>));         <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(arr.lastIndexOf(<span class="string">'Peter'</span>));              <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+
+#### 3.9 sort
+**定义和用法** <br>
+
+sort()方法用于对数组的元素进行排序。
+
+**语法** <br>
+
+> arrayObject.sort(sortby)
+
+|参数|描述|
+|-------|----|
+|sortby|可选。规定排序顺序。必须是函数。|
+
+**返回值** <br>
+
+对数组的引用。请注意，数组在原数组上进行排序，不生成副本。<br>
+
+**说明** <br>
+
+如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说的更精确点，是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以方便比较。
+
+如果想按照其他标准进行排序，就需要提供比较函数，该函数要比较两个值，然后返回一个用于说明这两个值的相对顺序的数字。比较函数应该具有两个参数a和b，其返回值如下：
+
+- 若a小于b，在排序后的数组中a应该出现在b之前，则返回一个小于0的值。
+- 若a等于b，则返回0。
+- 若a大于b，则返回一个大于0的值。
+
+即顺序 return a - b; 倒序 return b - a;
+
+a在b前返回负数，a在b后返回正数
+
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = new <span class="symbol">Array</span>(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"10"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"5"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"40"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"25"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"1000"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"1"</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr);           // [<span class="string">"10"</span>, <span class="string">"5"</span>, <span class="string">"40"</span>, <span class="string">"25"</span>, <span class="string">"1000"</span>, <span class="string">"1"</span>]</span><br><span class="line">console.log(arr.sort());    // [<span class="string">"1"</span>, <span class="string">"10"</span>, <span class="string">"1000"</span>, <span class="string">"25"</span>, <span class="string">"40"</span>, <span class="string">"5"</span>]</span><br><span class="line">console.log(arr);           // [<span class="string">"1"</span>, <span class="string">"10"</span>, <span class="string">"1000"</span>, <span class="string">"25"</span>, <span class="string">"40"</span>, <span class="string">"5"</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"10"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"5"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"40"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"25"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"1000"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">orderNumber</span> <span class="params">(a, b)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">descOrderNumber</span> <span class="params">(a, b)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> b - a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);                           // [<span class="string">"10"</span>, <span class="string">"5"</span>, <span class="string">"40"</span>, <span class="string">"25"</span>, <span class="string">"1000"</span>, <span class="string">"1"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">sort</span>(orderNumber));         // [<span class="string">"1"</span>, <span class="string">"5"</span>, <span class="string">"10"</span>, <span class="string">"25"</span>, <span class="string">"40"</span>, <span class="string">"1000"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">sort</span>(descOrderNumber));     // [<span class="string">"1000"</span>, <span class="string">"40"</span>, <span class="string">"25"</span>, <span class="string">"10"</span>, <span class="string">"5"</span>, <span class="string">"1"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr);                           // [<span class="string">"1000"</span>, <span class="string">"40"</span>, <span class="string">"25"</span>, <span class="string">"10"</span>, <span class="string">"5"</span>, <span class="string">"1"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.10 splice
+**定义和用法** <br>
+
+splice()方法向/从数组中添加/删除项目，然后返回被删除的项目。该方法会改变原始数组。
+
+**语法** <br>
+
+> arrayObject.splice(index, howmany, item1, ......, itemX)
+
+|参数|描述|
+|-------|----|
+|index|必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。|
+|howmany|必需。要删除的项目数量。如果设置为0，则不会删除项目。|
+|item1,......,itemX|可选。向数组添加的新项目。|
+
+**返回值** <br>
+
+|类型|描述|
+|-------|----|
+|Array|包含被删除项目的新数组，如果有的话。|
+
+**说明** <br>
+
+splice()方法可删除从index处开始的0个或多个元素，并且用参数列表中声明的一个或多个值来替换那些被删除的元素。如果从arrayObject中删除了元素，则返回的是含有被删除的元素的数组。
+
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var arr = new <span class="symbol">Array</span>(<span class="number">6</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="string">"James"</span>;</span><br><span class="line">arr[<span class="number">4</span>] = <span class="string">"Adrew"</span>;</span><br><span class="line">arr[<span class="number">5</span>] = <span class="string">"Martin"</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr);                                   // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]  </span><br><span class="line">console.log(arr.splice(<span class="number">1</span>, <span class="number">1</span>, <span class="string">'Peter'</span>, <span class="string">'Sara'</span>));     // [<span class="string">"John"</span>]</span><br><span class="line">console.log(arr);                                   // [<span class="string">"Geroge"</span>, <span class="string">"Peter"</span>, <span class="string">"Sara"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br><span class="line">console.log(arr.splice(<span class="number">1</span>, <span class="number">0</span>, <span class="string">'Ella'</span>));              // []</span><br><span class="line">console.log(arr);                                   // [<span class="string">"Geroge"</span>, <span class="string">"Ella"</span>, <span class="string">"Peter"</span>, <span class="string">"Sara"</span>, <span class="string">"Thomas"</span>, <span class="string">"James"</span>, <span class="string">"Adrew"</span>, <span class="string">"Martin"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.11 toString
+**定义和用法** <br>
+
+toString()方法可把数组转换为字符串，并返回结果。
+
+**语法** <br>
+
+> arrayObject.toString()
+
+**返回值** <br>
+
+arrayObject的字符串表示。返回值与没有参数的join()方法返回的字符串相同。
+
+**说明** <br>
+
+当数组用于字符串环境时，JavaScript会调用这一方法将数组自动转换成字符串。但是在某些情况下，需要显式地调用该方法。
+
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(<span class="number">4</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr.toString());    <span class="comment">// "Geroge,John,Thomas,20"</span></span><br></pre></td></tr></table></figure>
+
+#### 3.12 toLocaleString
+**定义和用法** <br>
+
+toLocaleString()方法可把数组转换为本地字符串，并返回结果。
+
+**语法** <br>
+
+> arrayObject.toLocaleString()
+
+**返回值** <br>
+
+arrayObject的本地字符串表示。
+
+**说明** <br>
+
+首先调用每个数组元素的 toLocaleString() 方法，然后使用地区特定的分隔符把生成的字符串连接起来，形成一个字符串。
+
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(<span class="number">4</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr.toLocaleString());    <span class="comment">// "Geroge,John,Thomas,20"</span></span><br></pre></td></tr></table></figure>
+
+#### 3.13 valueOf
+**定义和用法** <br>
+
+valueOf()方法返回Array对象的原始值。该原始值由Array对象派生的所有对象继承。valueOf(）方法通常由JavaScript在后台自动调用，并不显式地出现在代码中。
+
+**语法** <br>
+
+> arrayObject.valueOf()
+
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr = new <span class="symbol">Array</span>(<span class="number">4</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line">arr[<span class="number">3</span>] = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">console.log(arr.valueOf());    // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>, <span class="number">20</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.14 forEach
+**定义和用法** <br>
+
+forEach()方法用于调用数组的每个元素，并将元素传递给回调函数。forEach()对于空数组是不会执行回调函数的。
+
+**语法** <br>
+
+> arrayObject.forEach(function (value, index, arr) {}, thisValue)
+
+|参数|描述|
+|-------|----|
+|function(currentValue, index, arr)|必需。数组中每个元素需要调用的函数。<br>currentValue: 必需。当前元素。<br>index: 可选。当前元素的索引值。<br>arr: 可选。当前元素所属的数组对象。|
+|thisValue|可选。传递给函数的值一般用'this'值。<br>如果这个参数为空，严格模式下把'undefined'会传递给'this'值，普通模式下传入'window'。|
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"Geroge"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span> <span class="params">(value, index, arr)</span></span> &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(value);     // <span class="string">"Geroge"</span> <span class="string">"John"</span> <span class="string">"Thomas"</span></span><br><span class="line">    console.<span class="built_in">log</span>(index);     // <span class="number">0</span>        <span class="number">1</span>      <span class="number">2</span></span><br><span class="line">    console.<span class="built_in">log</span>(arr);       // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">    console.<span class="built_in">log</span>(this);      // window</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span> <span class="params">(value, index, arr)</span></span> &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(value);     // <span class="string">"Geroge"</span> <span class="string">"John"</span> <span class="string">"Thomas"</span></span><br><span class="line">    console.<span class="built_in">log</span>(index);     // <span class="number">0</span>        <span class="number">1</span>      <span class="number">2</span></span><br><span class="line">    console.<span class="built_in">log</span>(arr);       // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">    console.<span class="built_in">log</span>(this);      // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">&#125;, arr);</span><br></pre></td></tr></table></figure>
+
+#### 3.15 concat
+**定义和用法** <br>
+
+concat()方法用于连接两个或多个数组。该方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。
+
+**语法** <br>
+
+> arrayObject.concat(arrayX,arrayX,......,arrayX)
+
+|参数|描述|
+|---|---|
+|arrayX|必需。该参数可以是具体的值，也可以是数组对象。可以是任意多个。
+
+**返回值** <br>
+
+返回一个新的数组。该数组是通过把所有arrayX参数添加到arrayObject中生成的。如果要进行concat()操作的参数是数组，那么添加的是数组中的元素，而不是数组。
+
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">console.log(a.concat(<span class="number">4</span>, <span class="number">5</span>, [<span class="number">6</span>, <span class="number">7</span>], <span class="number">8</span>, <span class="number">9</span>));  <span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br></pre></td></tr></table></figure>
+
+#### 3.16 every
+**定义和用法** <br>
+
+every()方法用于检测数组所有元素是否都符合指定条件（通过函数提供）。
+every()方法使用指定函数检测数组中的所有元素：
+- 如果数组中检测到有一个元素不满足，则整个表达式返回false，且剩余的元素不会再进行检测。
+- 如果所有元素都满足条件，则返回true。
+
+注意：every()不会对空数组进行检测。
+注意：every()不会改变原始数组。
+
+**语法** <br>
+
+> arrayObject.every(function (currentValue, index, arr) {}, thisValue)
+
+|参数|描述|
+|---|---|
+|function (currentValue, index, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>currentValue: 必需。当前元素。<br>index: 可选。当前元素的索引值。<br>arr: 可选。当前元素所属的数组对象。|
+|thisValue|可选。对象作为该执行回调时使用，传递给函数。<br>
+
+**说明** <br>
+
+有一个返回false，则整个every()返回值为false，并且不会执行后续其他项的回调函数。
+空数组的every()直接返回true。
+
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">24</span>, <span class="number">32</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">result</span> = ages.every(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">ages = [];</span><br><span class="line"><span class="keyword">result</span> = ages.every(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+#### 3.17 some
+**定义和用法** <br>
+
+some()方法用于检测数组所有元素是否满足指定条件（通过函数提供）。
+every()方法会依次执行数组的每个元素：
+- 如果有一个元素满足条件，则表达式返回true，剩余的元素不会再执行检测。
+- 如果没有满足条件的元素，则返回false。
+
+注意：some()不会对空数组进行检测。
+注意：some()不会改变原始数组。
+
+**语法** <br>
+
+> arrayObject.some(function (currentValue, index, arr) {}, thisValue)
+
+|参数|描述|
+|---|---|
+|function (currentValue, index, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>currentValue: 必需。当前元素。<br>index: 可选。当前元素的索引值。<br>arr: 可选。当前元素所属的数组对象。|
+|thisValue|可选。对象作为该执行回调时使用，传递给函数。<br>
+
+**说明** <br>
+
+有一个返回true，则整个some()返回值为true，并且不会执行后续其他项的回调函数。
+空数组的some()直接返回false。
+
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">24</span>, <span class="number">32</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">result</span> = ages.some(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">ages = [];</span><br><span class="line"><span class="keyword">result</span> = ages.some(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+#### 3.18 filter
+**定义和用法** <br>
+
+filter()方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+
+注意：filter()不会对空数组进行检测。
+注意：filter()不会改变原始数组。
+
+**语法** <br>
+
+> arrayObject.filter(function (currentValue, index, arr) {}, thisValue)
+
+|参数|描述|
+|---|---|
+|function (currentValue, index, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>currentValue: 必需。当前元素。<br>index: 可选。当前元素的索引值。<br>arr: 可选。当前元素所属的数组对象。|
+|thisValue|可选。对象作为该执行回调时使用，传递给函数。<br>
+
+**说明** <br>
+
+将所有返回true的数组项取出来组成一个新的数组。
+
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">24</span>, <span class="number">32</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">result</span> = ages.filter(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// [32, 40]</span></span><br><span class="line">console.log(ages);      <span class="comment">// [10, 20, 24, 32, 40]</span></span><br><span class="line"></span><br><span class="line">ages = [];</span><br><span class="line"><span class="keyword">result</span> = ages.filter(<span class="function"><span class="keyword">function</span> <span class="params">(value, <span class="keyword">index</span>, arr)</span> <span class="comment">&#123;</span></span></span><br><span class="line"><span class="function"><span class="comment">    return value &gt; 25;</span></span></span><br><span class="line"><span class="function"><span class="comment">&#125;</span>);</span></span><br><span class="line"></span><br><span class="line">console.log(<span class="keyword">result</span>);    <span class="comment">// []</span></span><br></pre></td></tr></table></figure>
+
+#### 3.19 reverse
+**定义和用法** <br>
+
+reverse()方法用于颠倒数组中元素的顺序。会改变原数组。
+
+**语法** <br>
+
+> arrayObject.reverse()
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> arr = <span class="built_in">new</span> Array(<span class="number">3</span>);</span><br><span class="line">arr[<span class="number">0</span>] = <span class="string">"George"</span>;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="string">"John"</span>;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="string">"Thomas"</span>;</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(arr);               // [<span class="string">"Geroge"</span>, <span class="string">"John"</span>, <span class="string">"Thomas"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr.<span class="built_in">reverse</span>());     // [<span class="string">"Thomas"</span>, <span class="string">"John"</span>, <span class="string">"Geroge"</span>]</span><br><span class="line">console.<span class="built_in">log</span>(arr);               // [<span class="string">"Thomas"</span>, <span class="string">"John"</span>, <span class="string">"Geroge"</span>]</span><br></pre></td></tr></table></figure>
+
+#### 3.20 map
+**定义和用法** <br>
+
+map()方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。map()方法按照原始数组元素顺序依次处理元素。
+
+注意：map()不会对空数组进行检测。
+注意：map()不会改变原始数组。
+
+**语法** <br>
+
+> arrayObject.map(function (currentValue, index, arr) {}, thisValue)
+
+|参数|描述|
+|---|---|
+|function (currentValue, index, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>currentValue: 必需。当前元素。<br>index: 可选。当前元素的索引值。<br>arr: 可选。当前元素所属的数组对象。|
+|thisValue|可选。对象作为该执行回调时使用，传递给函数。<br>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [<span class="number">65</span>, <span class="number">20</span>, <span class="number">11</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = numbers.map(<span class="function"><span class="keyword">function</span> (<span class="params">value, index, arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value * <span class="number">2</span>;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(numbers);   <span class="comment">// [65, 20, 11, 5]</span></span><br><span class="line"><span class="built_in">console</span>.log(arr);       <span class="comment">// [130, 40, 22, 10]</span></span><br></pre></td></tr></table></figure>
+
+#### 3.21 reduce
+**定义和用法** <br>
+
+reduce()方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。
+
+注意：reduce()对于空数组是不会执行回调函数的。
+
+**语法** <br>
+
+> arrayObject.reduce(function (total, currentValue, currentIndex, arr) {}, initialValue)
+
+|参数|描述|
+|---|---|
+|function (total, currentValue, currentIndex, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>total: 必需。初始值，或者计算结束后的返回值。<br>currentValue: 必需。当前元素。<br>currentIndex: 可选。当前元素的索引。<br>arr: 可选。当前元素所属的数组对象。|
+|initialValue|可选。传递给函数的初始值。<br>|
+
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [15, 2, 1, 7];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">total</span> = numbers.reduce(function (<span class="keyword">total</span>, currentValue) &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(<span class="keyword">total</span>);             <span class="comment">// 15 17 18 25</span></span><br><span class="line">    console.<span class="built_in">log</span>(currentValue);      <span class="comment">// 2  1  7</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">total</span> + currentValue;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">total</span>);                 <span class="comment">// 25</span></span><br><span class="line">console.<span class="built_in">log</span>(numbers);               <span class="comment">// [15, 2, 1, 7]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">total</span> = numbers.reduce(function (<span class="keyword">total</span>, currentValue) &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(<span class="keyword">total</span>);             <span class="comment">// 20 35 37 38 45</span></span><br><span class="line">    console.<span class="built_in">log</span>(currentValue);      <span class="comment">// 15 2  1  7</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">total</span> + currentValue;</span><br><span class="line">&#125;, 20);</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">total</span>);                 <span class="comment">// 45</span></span><br><span class="line">console.<span class="built_in">log</span>(numbers);               <span class="comment">// [15, 2, 1, 7]</span></span><br></pre></td></tr></table></figure>
+
+#### 3.22 reduceRight
+**定义和用法** <br>
+
+reduceRight()方法的功能和reduce()功能是一样的，不同的是reduceRight()从数组的末尾向前将数组中的数组项做累加。
+
+注意：reduceRight()对于空数组是不会执行回调函数的。
+
+**语法** <br>
+
+> arrayObject.reduceRight(function (total, currentValue, currentIndex, arr) {}, initialValue)
+
+|参数|描述|
+|---|---|
+|function (total, currentValue, currentIndex, arr)|必需。函数，数组中的每个元素都会执行这个函数。<br>total: 必需。初始值，或者计算结束后的返回值。<br>currentValue: 必需。当前元素。<br>currentIndex: 可选。当前元素的索引。<br>arr: 可选。当前元素所属的数组对象。|
+|initialValue|可选。传递给函数的初始值。<br>|
+
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [15, 2, 1, 7];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">total</span> = numbers.reduceRight(function (<span class="keyword">total</span>, currentValue) &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(<span class="keyword">total</span>);             <span class="comment">// 7 8 10 25</span></span><br><span class="line">    console.<span class="built_in">log</span>(currentValue);      <span class="comment">// 1 2 15</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">total</span> + currentValue;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">total</span>);                 <span class="comment">// 25</span></span><br><span class="line">console.<span class="built_in">log</span>(numbers);               <span class="comment">// [15, 2, 1, 7]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">total</span> = numbers.reduceRight(function (<span class="keyword">total</span>, currentValue) &#123;</span><br><span class="line">    console.<span class="built_in">log</span>(<span class="keyword">total</span>);             <span class="comment">// 20 27 28 30 45</span></span><br><span class="line">    console.<span class="built_in">log</span>(currentValue);      <span class="comment">// 7  1  2  15</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">total</span> + currentValue;</span><br><span class="line">&#125;, 20);</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">total</span>);                 <span class="comment">// 45</span></span><br><span class="line">console.<span class="built_in">log</span>(numbers);               <span class="comment">// [15, 2, 1, 7]</span></span><br></pre></td></tr></table></figure>
+
+## 三、结束
+本文会同步到我的[个人博客](https://blog.liuxuan.site)，完整代码可以到我的[github仓库查看](https://github.com/leocoder351/data-structure)，如果对你有帮助的话欢迎点一个Star~~
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/img/wechatpay.jpg" alt="liuxuan 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/img/alipay.jpg" alt="liuxuan 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/数组/" rel="tag"># 数组</a>
+          
+        </div>
+      
+
+      <div>
+            
+              
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/07/25/javascript_data_structure_01_array/">JavaScript数据结构01 - 数组</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 liuxuan 的个人博客">liuxuan</a></p>
+  <p><span>发布时间:</span>2018年07月25日 - 16:07</p>
+  <p><span>最后更新:</span>2018年07月25日 - 23:07</p>
+  <p><span>原始链接:</span><a href="/2018/07/25/javascript_data_structure_01_array/" title="JavaScript数据结构01 - 数组">//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+            
+      </div>
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/javascript_asynchronous_programming/" rel="next" title="JavaScript异步编程">
+                <i class="fa fa-chevron-left"></i> JavaScript异步编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/25/javascript_data_structure_02_stack/" rel="prev" title="JavaScript数据结构02 - 栈">
+                JavaScript数据结构02 - 栈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS" sid="JavaScript数据结构01 - 数组"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+              src="/assets/img/avatar.jpg"
+              alt="liuxuan" />
+            
+              <p class="site-author-name" itemprop="name">liuxuan</p>
+              <p class="site-description motion-element" itemprop="description">科大讯飞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liuxuan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">访问总数&#58;</span>
+    
+    <span title="访问总数">38.4k</span>
+  
+</div>
+
+
+  <!--
+  <div class="powered-by">
+    <i class="fa fa-user"></i><span id="busuanzi_container_site_uv">
+      访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv">
+      访问总数：<span id="busuanzi_value_site_pv"></span>次
+    </span>
+  </div>-->
+  <!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>-->
+
+
+
+  <!--<span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>-->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytyfpVPi';
+      var conf = '34d2fc826ea4d79b425df9b40e745c76';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("n3wjA02Ad7yQX9pSw1nsuKkC-gzGzoHsz", "E5r737ij45xjWO6hOKs77XMN");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- my add -->
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- -->
+</body>
+</html>
