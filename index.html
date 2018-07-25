@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  712字
+                  678字
                 </span>
               
 
@@ -466,22 +466,13 @@
 
       
         
-          ![label-statement](http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400)
-
-## 一、定义
-### 1.1 背景
-通过前面一节[《JavaScript数据结构01 - 数组》](https://blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/)我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。
-
-有两种数据结构类似于数组，但在添加和删除元素时更为可控。
-
-它们就是**栈和队列**。
-
-### 1.2 概念
-**栈**是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作**栈顶**，另一端就叫**栈底**。
-
-在栈里，新元素都靠近栈顶，旧元素都接近栈底。
-
-栈也被用在编程语言的编译器和内存中保存变量、方法调用等，比如函数的调用栈。
+          <p><img src="http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400" alt="stack"></p>
+<h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><h3 id="1-1-背景"><a href="#1-1-背景" class="headerlink" title="1.1 背景"></a>1.1 背景</h3><p>通过前面一节<a href="https://blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/" target="_blank" rel="noopener">《JavaScript数据结构01 - 数组》</a>我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。</p>
+<p>有两种数据结构类似于数组，但在添加和删除元素时更为可控。</p>
+<p>它们就是<strong>栈和队列</strong>。</p>
+<h3 id="1-2-概念"><a href="#1-2-概念" class="headerlink" title="1.2 概念"></a>1.2 概念</h3><p><strong>栈</strong>是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作<strong>栈顶</strong>，另一端就叫<strong>栈底</strong>。</p>
+<p>在栈里，新元素都靠近栈顶，旧元素都接近栈底。</p>
+<p>栈也被用在编程语言的编译器和内存中保存变量、方法调用等，比如函数的调用栈。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/25/javascript_data_structure_02_stack/#more" rel="contents">
@@ -646,7 +637,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  5,919字
+                  5,882字
                 </span>
               
 
@@ -684,14 +675,9 @@
 
       
         
-          ![label-statement](http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400)
-
-## 一、创建数组
-#### 1.1 使用Array构造函数
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = <span class="keyword">new</span> <span class="type">Array</span>(); <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="number">10</span>);   <span class="comment">// 创建一个包含20项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>);  <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
-
-#### 1.2 使用数组字面量表示法
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [];  <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="number">10</span>];    <span class="comment">// 创建一个包含1项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = [<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>];   <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
+          <p><img src="http://image.liuxuan.site/blog/20180725/array.jpg?imageView2/1/w/1000/h/400" alt="array"></p>
+<h2 id="一、创建数组"><a href="#一、创建数组" class="headerlink" title="一、创建数组"></a>一、创建数组</h2><h4 id="1-1-使用Array构造函数"><a href="#1-1-使用Array构造函数" class="headerlink" title="1.1 使用Array构造函数"></a>1.1 使用Array构造函数</h4><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = <span class="keyword">new</span> <span class="type">Array</span>(); <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="number">10</span>);   <span class="comment">// 创建一个包含20项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = <span class="keyword">new</span> <span class="type">Array</span>(<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>);  <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-2-使用数组字面量表示法"><a href="#1-2-使用数组字面量表示法" class="headerlink" title="1.2 使用数组字面量表示法"></a>1.2 使用数组字面量表示法</h4><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [];  <span class="comment">// 创建一个空数组</span></span><br><span class="line"><span class="keyword">var</span> arr2 = [<span class="number">10</span>];    <span class="comment">// 创建一个包含1项的数组</span></span><br><span class="line"><span class="keyword">var</span> arr3 = [<span class="string">'liu'</span>, <span class="string">'wang'</span>, <span class="string">'li'</span>];   <span class="comment">// 创建一个包含3个字符串的数组</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/25/javascript_data_structure_01_array/#more" rel="contents">
@@ -1496,7 +1482,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">38.4k</span>
+    <span title="访问总数">38.3k</span>
   
 </div>
 

@@ -90,18 +90,20 @@
 
 
 
-<meta name="description" content="![label-statement](http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400)  ## 一、定义 ### 1.1 背景 通过前面一节[《JavaScript数据结构01 - 数组》](https://blog.liuxuan.site/2018/07/25/javascript_data">
+<meta name="description" content="一、定义1.1 背景通过前面一节《JavaScript数据结构01 - 数组》我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。 有两种数据结构类似于数组，但在添加和删除元素时更为可控。 它们就是栈和队列。 1.2 概念栈是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作栈顶，另一端就叫栈底。">
 <meta name="keywords" content="Javascript,数据结构,算法,栈">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript数据结构02 - 栈">
 <meta property="og:url" content="//blog.liuxuan.site/2018/07/25/javascript_data_structure_02_stack/index.html">
 <meta property="og:site_name" content="liuxuan的博客">
-<meta property="og:description" content="![label-statement](http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400)  ## 一、定义 ### 1.1 背景 通过前面一节[《JavaScript数据结构01 - 数组》](https://blog.liuxuan.site/2018/07/25/javascript_data">
+<meta property="og:description" content="一、定义1.1 背景通过前面一节《JavaScript数据结构01 - 数组》我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。 有两种数据结构类似于数组，但在添加和删除元素时更为可控。 它们就是栈和队列。 1.2 概念栈是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作栈顶，另一端就叫栈底。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-25T15:11:00.000Z">
+<meta property="og:image" content="http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400">
+<meta property="og:updated_time" content="2018-07-25T15:24:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript数据结构02 - 栈">
-<meta name="twitter:description" content="![label-statement](http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400)  ## 一、定义 ### 1.1 背景 通过前面一节[《JavaScript数据结构01 - 数组》](https://blog.liuxuan.site/2018/07/25/javascript_data">
+<meta name="twitter:description" content="一、定义1.1 背景通过前面一节《JavaScript数据结构01 - 数组》我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。 有两种数据结构类似于数组，但在添加和删除元素时更为可控。 它们就是栈和队列。 1.2 概念栈是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作栈顶，另一端就叫栈底。">
+<meta name="twitter:image" content="http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400">
 
 
 
@@ -426,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  712字
+                  678字
                 </span>
               
 
@@ -463,53 +465,29 @@
       
 
       
-        
-![label-statement](http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400)
-
-## 一、定义
-### 1.1 背景
-通过前面一节[《JavaScript数据结构01 - 数组》](https://blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/)我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。
-
-有两种数据结构类似于数组，但在添加和删除元素时更为可控。
-
-它们就是**栈和队列**。
-
-### 1.2 概念
-**栈**是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作**栈顶**，另一端就叫**栈底**。
-
-在栈里，新元素都靠近栈顶，旧元素都接近栈底。
-
-栈也被用在编程语言的编译器和内存中保存变量、方法调用等，比如函数的调用栈。
-
+        <p><img src="http://image.liuxuan.site/blog/20180725/stack.jpg?imageView2/1/w/1000/h/400" alt="stack"></p>
+<h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><h3 id="1-1-背景"><a href="#1-1-背景" class="headerlink" title="1.1 背景"></a>1.1 背景</h3><p>通过前面一节<a href="https://blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/" target="_blank" rel="noopener">《JavaScript数据结构01 - 数组》</a>我们知道，可以在数组的任意位置上删除或添加元素。然而，有时候我们还需要一种在添加或删除元素时有更多控制的数据结构。</p>
+<p>有两种数据结构类似于数组，但在添加和删除元素时更为可控。</p>
+<p>它们就是<strong>栈和队列</strong>。</p>
+<h3 id="1-2-概念"><a href="#1-2-概念" class="headerlink" title="1.2 概念"></a>1.2 概念</h3><p><strong>栈</strong>是一种遵循后进先出（LIFO）原则的有序集合。新添加的或待删除的元素都保存在栈的末尾，称作<strong>栈顶</strong>，另一端就叫<strong>栈底</strong>。</p>
+<p>在栈里，新元素都靠近栈顶，旧元素都接近栈底。</p>
+<p>栈也被用在编程语言的编译器和内存中保存变量、方法调用等，比如函数的调用栈。</p>
 <a id="more"></a>
-
-## 二、栈的实现
-### 2.1 创建一个类来表示栈
-
-这里我还是用构造函数的形式来书写，大家有兴趣可以用ES6的Class来重写一遍。
-
+<h2 id="二、栈的实现"><a href="#二、栈的实现" class="headerlink" title="二、栈的实现"></a>二、栈的实现</h2><h3 id="2-1-创建一个类来表示栈"><a href="#2-1-创建一个类来表示栈" class="headerlink" title="2.1 创建一个类来表示栈"></a>2.1 创建一个类来表示栈</h3><p>这里我还是用构造函数的形式来书写，大家有兴趣可以用ES6的Class来重写一遍。</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Stack类</span></span><br><span class="line">function Stack () &#123;</span><br><span class="line">  <span class="keyword">this</span>.items = [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.push = push;</span><br><span class="line">  <span class="keyword">this</span>.pop = pop;</span><br><span class="line">  <span class="keyword">this</span>.<span class="built_in">peek</span> = <span class="built_in">peek</span>;</span><br><span class="line">  <span class="keyword">this</span>.isEmpty = isEmpty;</span><br><span class="line">  <span class="keyword">this</span>.<span class="built_in">clear</span> = <span class="built_in">clear</span>;</span><br><span class="line">  <span class="keyword">this</span>.<span class="built_in">size</span> = <span class="built_in">size</span>;</span><br><span class="line">  <span class="keyword">this</span>.<span class="built_in">print</span> = <span class="built_in">print</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>栈里面有一些声明的方法：</p>
+<ul>
+<li>push(element)：添加一个（或几个）新元素到栈顶</li>
+<li>pop()：移除栈顶的元素，同时返回被移除的元素</li>
+<li>peek()：返回栈顶的元素，不对栈做任何修改</li>
+<li>isEmpty()：如果栈里没有任何元素就返回true，否则返回false</li>
+<li>clear()：移除栈里的所有元素</li>
+<li>size()：返回栈里的元素个数</li>
+</ul>
+<h3 id="2-2-实现栈中的辅助方法"><a href="#2-2-实现栈中的辅助方法" class="headerlink" title="2.2 实现栈中的辅助方法"></a>2.2 实现栈中的辅助方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加新元素到栈顶</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">push</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.items.push(element);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除栈顶元素，同时返回被移除的元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pop</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.pop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查看栈顶元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">peek</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items[<span class="keyword">this</span>.items.length - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否为空栈</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEmpty</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.length === <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 清空栈</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clear</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.items = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询栈的长度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">size</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印栈里的元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.items.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-创建实例进行测试"><a href="#2-3-创建实例进行测试" class="headerlink" title="2.3 创建实例进行测试"></a>2.3 创建实例进行测试</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Stack实例</span></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">stack</span> = new <span class="keyword">Stack</span>();</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.isEmpty());     <span class="comment">// true</span></span><br><span class="line"><span class="keyword">stack</span>.push(5);                    <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">stack</span>.push(8);                    <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.peek());        <span class="comment">// 8</span></span><br><span class="line"><span class="keyword">stack</span>.push(11);                   <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 3</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.isEmpty());     <span class="comment">// false</span></span><br><span class="line"><span class="keyword">stack</span>.push(15);                   <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">stack</span>.pop();                      <span class="comment">// 15</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">stack</span>.<span class="keyword">print</span>();                    <span class="comment">// 5,8,11</span></span><br><span class="line"><span class="keyword">stack</span>.<span class="keyword">clear</span>();                    <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+<h2 id="三、结束"><a href="#三、结束" class="headerlink" title="三、结束"></a>三、结束</h2><p>本文会同步到我的<a href="https://blog.liuxuan.site" target="_blank" rel="noopener">个人博客</a>，完整代码可以到我的<a href="https://github.com/leocoder351/data-structure" target="_blank" rel="noopener">github仓库查看</a>，如果对你有帮助的话欢迎点一个Star~~</p>
 
-栈里面有一些声明的方法：
-
-- push(element)：添加一个（或几个）新元素到栈顶
-- pop()：移除栈顶的元素，同时返回被移除的元素
-- peek()：返回栈顶的元素，不对栈做任何修改
-- isEmpty()：如果栈里没有任何元素就返回true，否则返回false
-- clear()：移除栈里的所有元素
-- size()：返回栈里的元素个数
-
- 
-### 2.2 实现栈中的辅助方法
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加新元素到栈顶</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">push</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.items.push(element);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除栈顶元素，同时返回被移除的元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pop</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.pop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查看栈顶元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">peek</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items[<span class="keyword">this</span>.items.length - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否为空栈</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEmpty</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.length === <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 清空栈</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clear</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.items = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询栈的长度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">size</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.items.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印栈里的元素</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.items.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-### 2.3 创建实例进行测试
-
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Stack实例</span></span><br><span class="line"><span class="keyword">var</span> <span class="keyword">stack</span> = new <span class="keyword">Stack</span>();</span><br><span class="line"></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.isEmpty());     <span class="comment">// true</span></span><br><span class="line"><span class="keyword">stack</span>.push(5);                    <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">stack</span>.push(8);                    <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.peek());        <span class="comment">// 8</span></span><br><span class="line"><span class="keyword">stack</span>.push(11);                   <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 3</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.isEmpty());     <span class="comment">// false</span></span><br><span class="line"><span class="keyword">stack</span>.push(15);                   <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">stack</span>.pop();                      <span class="comment">// 15</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">stack</span>.<span class="keyword">print</span>();                    <span class="comment">// 5,8,11</span></span><br><span class="line"><span class="keyword">stack</span>.<span class="keyword">clear</span>();                    <span class="comment">// undefined</span></span><br><span class="line">console.<span class="built_in">log</span>(<span class="keyword">stack</span>.size());        <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
-
-## 三、结束
-本文会同步到我的[个人博客](https://blog.liuxuan.site)，完整代码可以到我的[github仓库查看](https://github.com/leocoder351/data-structure)，如果对你有帮助的话欢迎点一个Star~~
       
     </div>
     
@@ -674,8 +652,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -747,6 +734,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、定义"><span class="nav-number">1.</span> <span class="nav-text">一、定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-背景"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-概念"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、栈的实现"><span class="nav-number">2.</span> <span class="nav-text">二、栈的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-创建一个类来表示栈"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 创建一个类来表示栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-实现栈中的辅助方法"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 实现栈中的辅助方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-创建实例进行测试"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 创建实例进行测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、结束"><span class="nav-number">3.</span> <span class="nav-text">三、结束</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -775,7 +778,7 @@
     
       <span class="post-meta-item-text">访问总数&#58;</span>
     
-    <span title="访问总数">38.4k</span>
+    <span title="访问总数">38.3k</span>
   
 </div>
 
