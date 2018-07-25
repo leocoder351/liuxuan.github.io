@@ -4,6 +4,34 @@
 
     
   <url>
+    <loc>//blog.liuxuan.site/2018/07/20/javascript_asynchronous_programming/</loc>
+    <lastmod>2018-07-25T15:13:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript异步编程</title>
+        <pubTime>2018-07-20T12:36:00.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>异步编程</tag>
+         
+        <tag>Promise</tag>
+         
+        <tag>Generator</tag>
+         
+        <tag>Async/Await</tag>
+         
+         
+           
+             
+              <breadCrumb title="异步编程" url="//blog.liuxuan.site/categories/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>//blog.liuxuan.site/2018/07/25/javascript_data_structure_01_array/</loc>
     <lastmod>2018-07-25T15:11:03.000Z</lastmod>
     <data>
@@ -49,34 +77,6 @@
            
              
               <breadCrumb title="JavaScript" url="//blog.liuxuan.site/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>//blog.liuxuan.site/2018/07/20/javascript_asynchronous_programming/</loc>
-    <lastmod>2018-07-20T13:30:37.000Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript异步编程</title>
-        <pubTime>2018-07-20T12:36:00.000Z</pubTime>
-        
-        <tag>Javascript</tag>
-         
-        <tag>异步编程</tag>
-         
-        <tag>Promise</tag>
-         
-        <tag>Generator</tag>
-         
-        <tag>Async/Await</tag>
-         
-         
-           
-             
-              <breadCrumb title="异步编程" url="//blog.liuxuan.site/categories/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"/>
           
         </display>
     </data>
