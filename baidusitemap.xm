@@ -5,7 +5,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/10/10/javascript_vue_ssr/</loc>
-    <lastmod>2018-10-27T06:38:23.000Z</lastmod>
+    <lastmod>2018-10-27T06:43:22.000Z</lastmod>
     <data>
         <display>
         <title>带你五步学会Vue SSR</title>
@@ -243,9 +243,9 @@
         
         <tag>Javascript</tag>
          
-        <tag>Promise</tag>
-         
         <tag>异步编程</tag>
+         
+        <tag>Promise</tag>
          
         <tag>Generator</tag>
          
