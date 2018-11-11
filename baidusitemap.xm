@@ -5,7 +5,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/09/28/javascript_promise/</loc>
-    <lastmod>2018-11-11T08:09:12.000Z</lastmod>
+    <lastmod>2018-11-11T08:13:09.000Z</lastmod>
     <data>
         <display>
         <title>从0到1实现Promise</title>
@@ -27,7 +27,7 @@
     
   <url>
     <loc>//blog.liuxuan.site/2018/10/10/javascript_vue_ssr/</loc>
-    <lastmod>2018-11-11T08:07:16.000Z</lastmod>
+    <lastmod>2018-11-11T08:13:07.000Z</lastmod>
     <data>
         <display>
         <title>带你五步学会Vue SSR</title>
