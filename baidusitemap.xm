@@ -4,20 +4,16 @@
 
     
   <url>
-    <loc>//blog.liuxuan.site/2018/10/10/javascript_vue_ssr/</loc>
-    <lastmod>2018-11-11T08:03:01.000Z</lastmod>
+    <loc>//blog.liuxuan.site/2018/09/28/javascript_promise/</loc>
+    <lastmod>2018-11-11T08:09:12.000Z</lastmod>
     <data>
         <display>
-        <title>带你五步学会Vue SSR</title>
-        <pubTime>2018-10-10T12:36:00.000Z</pubTime>
+        <title>从0到1实现Promise</title>
+        <pubTime>2018-09-28T12:36:00.000Z</pubTime>
         
-        <tag>Vue</tag>
+        <tag>Javascript</tag>
          
-        <tag>Vuex</tag>
-         
-        <tag>Vue Router</tag>
-         
-        <tag>Vue SSR</tag>
+        <tag>Promise</tag>
          
          
            
@@ -30,16 +26,20 @@
 
     
   <url>
-    <loc>//blog.liuxuan.site/2018/09/28/javascript_promise/</loc>
-    <lastmod>2018-11-11T07:49:33.000Z</lastmod>
+    <loc>//blog.liuxuan.site/2018/10/10/javascript_vue_ssr/</loc>
+    <lastmod>2018-11-11T08:07:16.000Z</lastmod>
     <data>
         <display>
-        <title>从0到1实现Promise</title>
-        <pubTime>2018-09-28T12:36:00.000Z</pubTime>
+        <title>带你五步学会Vue SSR</title>
+        <pubTime>2018-10-10T12:36:00.000Z</pubTime>
         
-        <tag>Javascript</tag>
+        <tag>Vue</tag>
          
-        <tag>Promise</tag>
+        <tag>Vuex</tag>
+         
+        <tag>Vue Router</tag>
+         
+        <tag>Vue SSR</tag>
          
          
            
