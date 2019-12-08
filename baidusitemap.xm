@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>//blog.liuxuan.site/2019/12/08/micro-frontend-series-0/</loc>
+    <lastmod>2019-12-08T05:13:05.582Z</lastmod>
+    <data>
+        <display>
+        <title>微前端落地系列（第0篇）：技术选型</title>
+        <pubTime>2019-12-08T05:00:00.000Z</pubTime>
+        
+        <tag>微前端</tag>
+         
+        <tag>single-spa</tag>
+         
+         
+           
+             
+              <breadCrumb title="微前端" url="//blog.liuxuan.site/categories/%E5%BE%AE%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>//blog.liuxuan.site/2018/09/28/javascript_promise/</loc>
     <lastmod>2018-11-11T08:13:09.000Z</lastmod>
     <data>
